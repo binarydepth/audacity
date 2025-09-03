@@ -31,10 +31,10 @@ StyledDialogView {
 
     title: qsTrc("appshell/gettingstarted", "Getting started")
 
-    contentWidth: 576
-    contentHeight: 384
+    contentWidth: 560
+    contentHeight: 414
 
-    margins: 20
+    margins: 12
 
     readonly property Page currentPage: pageLoader.item as Page
 
@@ -65,22 +65,12 @@ StyledDialogView {
         id: content
 
         anchors.fill: parent
-        anchors.leftMargin: 28
-        anchors.rightMargin: 28
-        spacing: 24
-
-        PageIndicator {
-            Layout.alignment: Qt.AlignCenter
-            count: model.numberOfPages
-            currentIndex: model.currentPageIndex
-        }
 
         Loader {
             id: pageLoader
 
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin: -8
             source: model.currentPage.url
 
             onLoaded: {
@@ -104,10 +94,29 @@ StyledDialogView {
             }
         }
 
+        SeparatorLine {
+            Layout.fillWidth: true
+            Layout.leftMargin: -12 // edge to edge SeparatorLine remove margin here
+            Layout.rightMargin: -12 // edge to edge SeparatorLine remove margin here
+            Layout.bottomMargin: 4
+        }
+
         RowLayout {
             id: buttons
+            height:48
+            Layout.fillWidth: true
+            Layout.bottomMargin: -2
+            spacing: 10
 
-            spacing: 12
+            StyledTextLabel {
+                Layout.alignment: Qt.AlignLeft
+                text: qsTrc("appshell/gettingstarted", "%1 of %2").arg(model.currentPageIndex + 1).arg(model.numberOfPages)
+                font: ui.theme.bodyFont
+            }
+
+            Item {
+                Layout.fillWidth: true // spacer to push buttons to the right
+            }
 
             property var lastPressedButton: null
             property var activeButton: {
@@ -134,7 +143,8 @@ StyledDialogView {
                 Layout.alignment: Qt.AlignLeft
 
                 text: qsTrc("global", "Back")
-                visible: model.canGoBack
+                enabled: model.canGoBack
+                visible: true
 
                 navigation.name: "BackButton"
                 navigation.panel: buttons.navigationPanel
@@ -148,6 +158,8 @@ StyledDialogView {
                 }
 
                 onClicked: {
+                    if (!enabled) return
+
                     if (Boolean(buttons.lastPressedButton)) {
                         buttons.lastPressedButton.navigation.accessible.ignored = true
                     }
@@ -156,10 +168,6 @@ StyledDialogView {
                     pageLoader.item.resetFocus()
                     model.currentPageIndex--
                 }
-            }
-
-            Item {
-                Layout.fillWidth: true // spacer
             }
 
             FlatButton {
