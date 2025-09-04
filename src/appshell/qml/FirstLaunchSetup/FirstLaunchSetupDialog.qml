@@ -34,7 +34,7 @@ StyledDialogView {
     contentWidth: 560
     contentHeight: 414
 
-    margins: 12
+    margins: 0
 
     readonly property Page currentPage: pageLoader.item as Page
 
@@ -65,12 +65,14 @@ StyledDialogView {
         id: content
 
         anchors.fill: parent
+        spacing: 0
+        Layout.margins: 0
 
         Loader {
             id: pageLoader
 
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            Layout.preferredHeight: 366
             source: model.currentPage.url
 
             onLoaded: {
@@ -96,19 +98,24 @@ StyledDialogView {
 
         SeparatorLine {
             Layout.fillWidth: true
-            Layout.leftMargin: -12 // edge to edge SeparatorLine remove margin here
-            Layout.rightMargin: -12 // edge to edge SeparatorLine remove margin here
-            Layout.bottomMargin: 4
+            Layout.margins: 0
+            Layout.preferredHeight: 1
         }
 
         RowLayout {
             id: buttons
-            height:48
+            Layout.preferredHeight: 47 // 48 - 1 for the SeparatorLine
+
             Layout.fillWidth: true
-            Layout.bottomMargin: -2
-            spacing: 10
+            Layout.leftMargin: 12
+            Layout.rightMargin: 12
+            Layout.topMargin: 9 // 10 - 1 for the SeparatorLine
+            Layout.bottomMargin: 10
+            spacing: 8
 
             StyledTextLabel {
+                Layout.topMargin: 6
+                Layout.bottomMargin: 6
                 Layout.alignment: Qt.AlignLeft
                 text: qsTrc("appshell/gettingstarted", "%1 of %2").arg(model.currentPageIndex + 1).arg(model.numberOfPages)
                 font: ui.theme.bodyFont
@@ -141,6 +148,8 @@ StyledDialogView {
                 id: backButton
 
                 Layout.alignment: Qt.AlignLeft
+                Layout.preferredHeight: 28
+                Layout.preferredWidth: 80
 
                 text: qsTrc("global", "Back")
                 enabled: model.canGoBack
@@ -174,6 +183,8 @@ StyledDialogView {
                 id: extraButton
 
                 Layout.alignment: Qt.AlignRight
+                Layout.preferredHeight: 28
+                Layout.preferredWidth: 80
 
                 visible: root.currentPage ? Boolean(root.currentPage.extraButtonTitle) : false
                 accentButton: true
@@ -195,6 +206,8 @@ StyledDialogView {
                 id: nextStepButton
 
                 Layout.alignment: Qt.AlignRight
+                Layout.preferredHeight: 28
+                Layout.preferredWidth: 80
 
                 text: model.canFinish ? qsTrc("appshell/gettingstarted", "Finish")
                                       : qsTrc("global", "Next")
