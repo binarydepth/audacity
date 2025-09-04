@@ -46,14 +46,14 @@ RadioButtonGroup {
     property int navigationColumnStart: 0
     property int navigationColumnEnd: navigationColumnStart + count
 
-    property real sampleSize: 30
-    readonly property real totalSampleSize: sampleSize + 6
+    property real sampleSize: 20
+    readonly property real totalSampleSize: sampleSize + 2
 
     signal accentColorChangeRequested(var newColorIndex)
 
     implicitWidth: count * totalSampleSize + (count - 1) * spacing
     implicitHeight: totalSampleSize
-    spacing: 10
+    spacing: 6
 
     delegate: RoundedRadioButton {
         id: button

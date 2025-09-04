@@ -52,8 +52,8 @@ ListView {
 
     signal themeChangeRequested(var newThemeCode)
 
-    readonly property int sampleWidth: 112
-    readonly property int sampleHeight: 120
+    readonly property int sampleWidth: 88
+    readonly property int sampleHeight: 98
 
     implicitWidth: count * sampleWidth + (count - 1) * spacing
     height: contentHeight
@@ -62,13 +62,13 @@ ListView {
     orientation: Qt.Horizontal
     interactive: false
 
-    spacing: 64
+    spacing: 24
 
     delegate: Column {
         width: sampleWidth
         height: sampleHeight
 
-        spacing: 16
+        spacing: 10
 
         ThemeSample {
             theme: modelData

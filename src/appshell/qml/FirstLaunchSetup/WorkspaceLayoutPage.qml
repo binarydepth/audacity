@@ -12,7 +12,6 @@ Page {
     id: root
 
     title: ""
-    explanation: ""
 
     titleContentSpacing: 0
 

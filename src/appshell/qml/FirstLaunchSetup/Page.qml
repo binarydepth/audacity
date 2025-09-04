@@ -29,7 +29,6 @@ Item {
     id: root
 
     property alias title: titleLabel.text
-    property alias explanation: explanationLabel.text
 
     property NavigationSection navigationSection: null
     property int navigationStartRow: 2
@@ -66,7 +65,7 @@ Item {
         accessibleParent: root.navigationPanel.accessible
         visualItem: root
         role: MUAccessible.Button
-        name: root.title + ". " + root.explanation + " " + root.activeButtonTitle
+        name: root.title + ". " + root.activeButtonTitle
 
         function readInfo() {
             accessibleInfo.ignored = false
@@ -82,12 +81,12 @@ Item {
     Column {
         id: header
 
+        anchors.topMargin: 39
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
 
         height: childrenRect.height
-        spacing: 6
 
         StyledTextLabel {
             id: titleLabel
@@ -96,15 +95,6 @@ Item {
             width: parent.width
 
             font: ui.theme.largeBodyBoldFont
-            wrapMode: Text.Wrap
-        }
-
-        StyledTextLabel {
-            id: explanationLabel
-
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width
-
             wrapMode: Text.Wrap
         }
     }

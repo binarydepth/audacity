@@ -31,10 +31,7 @@ import "../shared"
 Page {
     id: root
 
-    title: qsTrc("appshell/gettingstarted", "Welcome to Audacity 4")
-    explanation: qsTrc("appshell/gettingstarted", "Let’s get started by choosing a theme.")
-
-    titleContentSpacing: model.isFollowSystemThemeAvailable ? 24 : 28
+    title: qsTrc("appshell/gettingstarted", "Select a theme")
 
     ThemesPageModel {
         id: model
@@ -47,30 +44,7 @@ Page {
     ColumnLayout {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: model.isFollowSystemThemeAvailable ? 20 : 28
-
-        CheckBox {
-            visible: model.isFollowSystemThemeAvailable
-            Layout.alignment: Qt.AlignCenter
-
-            text: qsTrc("appshell/gettingstarted", "Follow system theme")
-
-            checked: model.isFollowSystemTheme
-
-            navigation.name: "FollowSystemThemeBox"
-            navigation.order: 1
-            navigation.panel: NavigationPanel {
-                name: "FollowSystemThemeBox"
-                enabled: parent.enabled && parent.visible
-                section: root.navigationSection
-                order: root.navigationStartRow + 1
-                direction: NavigationPanel.Horizontal
-            }
-
-            onClicked: {
-                model.isFollowSystemTheme = !checked
-            }
-        }
+        spacing: 24
 
         ThemeSamplesList {
             id: themeSamplesList
@@ -79,7 +53,7 @@ Page {
             themes: model.highContrastEnabled ? model.highContrastThemes : model.generalThemes
             currentThemeCode: model.currentThemeCode
 
-            spacing: 48
+            spacing: 24
 
             navigationPanel.section: root.navigationSection
             navigationPanel.order: root.navigationStartRow + 2
@@ -89,23 +63,94 @@ Page {
             }
         }
 
-        AccentColorsList {
-            id: accentColorsList
-            Layout.alignment: Qt.AlignCenter
-            Layout.preferredHeight: Math.max(implicitHeight, highContrastPreferencesHintLabel.implicitHeight)
+        Column {
+            id: checkboxesColumn
+
+            height: childrenRect.height
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            spacing: 16
+
+            CheckBox {
+                enabled: model.isFollowSystemThemeAvailable
+                Layout.alignment: Qt.AlignCenter
+
+                text: qsTrc("appshell/gettingstarted", "Follow system theme")
+
+                checked: model.isFollowSystemTheme
+
+                navigation.name: "FollowSystemThemeBox"
+                navigation.order: 1
+                navigation.panel: NavigationPanel {
+                    name: "FollowSystemThemeBox"
+                    enabled: parent.enabled && parent.visible
+                    section: root.navigationSection
+                    order: root.navigationStartRow + 1
+                    direction: NavigationPanel.Horizontal
+                }
+
+                onClicked: {
+                    model.isFollowSystemTheme = !checked
+                }
+            }
+
+            CheckBox {
+                Layout.alignment: Qt.AlignCenter
+
+                text: qsTrc("appshell/gettingstarted", "Enable high-contrast")
+                checked: model.highContrastEnabled
+
+                navigation.name: "EnableHighContrastCheckbox"
+                navigation.order: 1
+                navigation.panel: NavigationPanel {
+                    name: "EnableHighContrast"
+                    enabled: parent.enabled && parent.visible
+                    section: root.navigationSection
+                    order: root.navigationStartRow + 4
+                    direction: NavigationPanel.Horizontal
+                }
+                navigation.accessible.description: highContrastPreferencesHintLabel.text
+
+                onClicked: {
+                    model.highContrastEnabled = !checked
+                }
+            }
+        }
+
+        Column {
+            id: accentColorColumn
             visible: !model.highContrastEnabled
 
-            colors: model.accentColors
-            currentColorIndex: model.currentAccentColorIndex
+            height: childrenRect.height
 
-            sampleSize: 20
-            spacing: 4
+            spacing: 6
+            StyledTextLabel {
+                id: accentColorTitleLabel
+                Layout.alignment: Qt.AlignCenter
+                anchors.horizontalCenter: parent.horizontalCenter
 
-            navigationPanel.section: root.navigationSection
-            navigationPanel.order: root.navigationStartRow + 3
+                text: qsTrc("project", "Accent colour")
+                font: ui.theme.bodyFont
+            }
 
-            onAccentColorChangeRequested: function(newColorIndex) {
-                model.currentAccentColorIndex = newColorIndex
+            AccentColorsList {
+                id: accentColorsList
+
+                Layout.alignment: Qt.AlignCenter
+                Layout.preferredHeight: Math.max(implicitHeight, highContrastPreferencesHintLabel.implicitHeight)
+
+                colors: model.accentColors
+                currentColorIndex: model.currentAccentColorIndex
+
+                sampleSize: 22
+                spacing: 6
+
+                navigationPanel.section: root.navigationSection
+                navigationPanel.order: root.navigationStartRow + 3
+
+                onAccentColorChangeRequested: function (newColorIndex) {
+                    model.currentAccentColorIndex = newColorIndex
+                }
             }
         }
 
@@ -113,30 +158,10 @@ Page {
             id: highContrastPreferencesHintLabel
             visible: model.highContrastEnabled
             Layout.fillWidth: true
+            Layout.topMargin: 15
             Layout.preferredHeight: Math.max(implicitHeight, accentColorsList.implicitHeight)
-            text: qsTrc("appshell/gettingstarted", "Further high contrast settings are available in Preferences.")
+            text: qsTrc("appshell/gettingstarted", "Further options for high contrast mode can be found in Preferences")
         }
 
-        CheckBox {
-            Layout.alignment: Qt.AlignCenter
-
-            text: qsTrc("appshell/gettingstarted", "Enable high contrast")
-            checked: model.highContrastEnabled
-
-            navigation.name: "EnableHighContrastCheckbox"
-            navigation.order: 1
-            navigation.panel: NavigationPanel {
-                name: "EnableHighContrast"
-                enabled: parent.enabled && parent.visible
-                section: root.navigationSection
-                order: root.navigationStartRow + 4
-                direction: NavigationPanel.Horizontal
-            }
-            navigation.accessible.description: highContrastPreferencesHintLabel.text
-
-            onClicked: {
-                model.highContrastEnabled = !checked
-            }
-        }
     }
 }
