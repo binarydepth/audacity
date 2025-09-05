@@ -156,6 +156,10 @@ DoublePage {
         clipStyleModel.load();
     }
 
+    SeparatorLine {
+        anchors.horizontalCenter: parent.horizontalCenter
+        orientation: Qt.Vertical
+    }
     ClipVisualizationPageModel {
         id: clipStyleModel
 
