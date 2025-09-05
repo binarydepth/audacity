@@ -209,7 +209,7 @@ StyledDialogView {
                 Layout.preferredHeight: 28
                 Layout.preferredWidth: 80
 
-                text: model.canFinish ? qsTrc("appshell/gettingstarted", "Finish")
+                text: model.canFinish ? qsTrc("appshell/gettingstarted", "Done")
                                       : qsTrc("global", "Next")
                 accentButton: !extraButton.visible
 
