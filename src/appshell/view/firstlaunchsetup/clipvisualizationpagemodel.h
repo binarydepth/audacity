@@ -48,7 +48,7 @@ public:
     QVariantList clipStyles() const;
     int currentClipStyle() const;
     QString currentImagePath() const;
-    QString pageTitle() const;
+    static QString pageTitle();
 
 signals:
     void clipStylesChanged();

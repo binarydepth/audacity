@@ -25,6 +25,8 @@ DoublePage {
             width: parent.width
 
             Repeater {
+                id: optionsRepeater
+
                 model: clipStyleModel.clipStyles
 
                 delegate: Rectangle {
@@ -75,8 +77,8 @@ DoublePage {
                     }
                 }
             }
-        } // End of radio button options Column
-    } // End of left side Column
+        }
+    }
 
     // Right side content
     rightContent: Image {
@@ -104,6 +106,5 @@ DoublePage {
     }
     ClipVisualizationPageModel {
         id: clipStyleModel
-
     }
 }

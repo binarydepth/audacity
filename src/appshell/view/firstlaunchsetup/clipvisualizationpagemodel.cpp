@@ -71,7 +71,7 @@ int ClipVisualizationPageModel::currentClipStyle() const
 
 QString ClipVisualizationPageModel::currentImagePath() const
 {
-    int currentStyleValue = currentClipStyle();
+    const int currentStyleValue = currentClipStyle();
     for (const ClipStyleInfo& style : m_clipStyles) {
         if (style.style == currentStyleValue) {
             return style.imagePath;
@@ -80,14 +80,14 @@ QString ClipVisualizationPageModel::currentImagePath() const
     return ""; // Fallback
 }
 
-QString ClipVisualizationPageModel::pageTitle() const
+QString ClipVisualizationPageModel::pageTitle()
 {
     return qtrc("appshell/gettingstarted", "Clip visualisation");
 }
 
 void ClipVisualizationPageModel::updateClipStyles()
 {
-    int currentStyleValue = currentClipStyle();
+    const int currentStyleValue = currentClipStyle();
     for (ClipStyleInfo& style : m_clipStyles) {
         style.selected = (style.style == currentStyleValue);
     }
