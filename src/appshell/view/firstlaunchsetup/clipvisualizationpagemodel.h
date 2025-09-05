@@ -9,18 +9,20 @@
 #include "projectscene/iprojectsceneconfiguration.h"
 
 namespace au::appshell {
-
 struct ClipStyleInfo {
     int style;
     QString title;
     QString description;
+    QString imagePath;
     bool selected = false;
 
-    QVariantMap toMap() const {
+    QVariantMap toMap() const
+    {
         return {
             { "style", style },
             { "title", title },
             { "description", description },
+            { "imagePath", imagePath },
             { "selected", selected }
         };
     }
@@ -34,6 +36,8 @@ class ClipVisualizationPageModel : public QObject, public muse::async::Asyncable
 
     Q_PROPERTY(QVariantList clipStyles READ clipStyles NOTIFY clipStylesChanged)
     Q_PROPERTY(int currentClipStyle READ currentClipStyle NOTIFY currentClipStyleChanged)
+    Q_PROPERTY(QString currentImagePath READ currentImagePath NOTIFY currentClipStyleChanged)
+    Q_PROPERTY(QString pageTitle READ pageTitle CONSTANT)
 
 public:
     explicit ClipVisualizationPageModel(QObject* parent = nullptr);
@@ -43,6 +47,8 @@ public:
 
     QVariantList clipStyles() const;
     int currentClipStyle() const;
+    QString currentImagePath() const;
+    QString pageTitle() const;
 
 signals:
     void clipStylesChanged();

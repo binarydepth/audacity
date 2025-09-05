@@ -83,7 +83,6 @@ DoublePage {
                                 anchors.left: parent.left
                                 font: ui.theme.bodyFont
                                 horizontalAlignment: Text.AlignLeft
-                                opacity: 0.7
                                 text: getDescription(modelData.code)
                                 width: 172 // hardcoded width to fit the text for now
                                 wrapMode: Text.WordWrap
@@ -135,7 +134,6 @@ DoublePage {
                 anchors.left: parent.left
                 font: ui.theme.bodyFont
                 horizontalAlignment: Text.AlignLeft
-                opacity: 0.7
                 text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
                 width: parent.width
                 wrapMode: Text.WordWrap

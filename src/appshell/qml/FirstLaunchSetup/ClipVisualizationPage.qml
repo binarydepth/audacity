@@ -12,18 +12,7 @@ import Audacity.ProjectScene 1.0
 DoublePage {
     id: root
 
-    function getClipImageSource(style) {
-        switch (style) {
-        case ClipStyle.COLORFUL:
-            return "resources/ClipVisuals_ColourfulClips.png";
-        case ClipStyle.CLASSIC:
-            return "resources/ClipVisuals_ClassicClips.png";
-        default:
-            return "";
-        }
-    }
-
-    title: qsTrc("appshell/gettingstarted", "Clip visualisation")
+    title: clipStyleModel.pageTitle
 
     // Left side content
     leftContent: Column {
@@ -35,102 +24,54 @@ DoublePage {
             spacing: 8
             width: parent.width
 
-            // Colorful option
-            Rectangle {
-                border.color: clipStyleModel.currentClipStyle === ClipStyle.COLORFUL ? ui.theme.accentColor : ui.theme.strokeColor
-                border.width: clipStyleModel.currentClipStyle === ClipStyle.COLORFUL ? 1 : 1
-                color: "transparent"
-                height: 60
-                radius: 4
-                width: parent.width
+            Repeater {
+                model: clipStyleModel.clipStyles
 
-                Row {
-                    anchors.bottomMargin: 12
-                    anchors.left: parent.left
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 16
-                    anchors.topMargin: 12
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: 12
+                delegate: Rectangle {
+                    border.color: modelData.selected ? ui.theme.accentColor : ui.theme.strokeColor
+                    border.width: 1
+                    color: "transparent"
+                    height: 60
+                    radius: 4
+                    width: parent.width
 
-                    RoundedRadioButton {
+                    Row {
+                        anchors.bottomMargin: 12
+                        anchors.left: parent.left
+                        anchors.leftMargin: 12
+                        anchors.rightMargin: 16
+                        anchors.topMargin: 12
                         anchors.verticalCenter: parent.verticalCenter
-                        checked: clipStyleModel.currentClipStyle === ClipStyle.COLORFUL
+                        spacing: 12
 
-                        onToggled: {
-                            clipStyleModel.selectClipStyle(ClipStyle.COLORFUL);
+                        RoundedRadioButton {
+                            anchors.verticalCenter: parent.verticalCenter
+                            checked: modelData.selected
+
+                            onToggled: {
+                                clipStyleModel.selectClipStyle(modelData.style);
+                            }
+                        }
+                        Column {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 4
+
+                            StyledTextLabel {
+                                font: ui.theme.bodyBoldFont
+                                text: modelData.title
+                            }
+                            StyledTextLabel {
+                                font: ui.theme.bodyFont
+                                text: modelData.description
+                            }
                         }
                     }
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: 4
+                    MouseArea {
+                        anchors.fill: parent
 
-                        StyledTextLabel {
-                            font: ui.theme.bodyBoldFont
-                            text: "Colourful"
+                        onClicked: {
+                            clipStyleModel.selectClipStyle(modelData.style);
                         }
-                        StyledTextLabel {
-                            font: ui.theme.bodyFont
-                            opacity: 0.7
-                            text: "Each track gets a new colour"
-                        }
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: {
-                        clipStyleModel.selectClipStyle(ClipStyle.COLORFUL);
-                    }
-                }
-            }
-
-            // Classic option
-            Rectangle {
-                border.color: clipStyleModel.currentClipStyle === ClipStyle.CLASSIC ? ui.theme.accentColor : ui.theme.strokeColor
-                border.width: clipStyleModel.currentClipStyle === ClipStyle.CLASSIC ? 1 : 1
-                color: "transparent"
-                height: 60
-                radius: 4
-                width: parent.width
-
-                Row {
-                    anchors.bottomMargin: 12
-                    anchors.left: parent.left
-                    anchors.leftMargin: 12
-                    anchors.rightMargin: 16
-                    anchors.topMargin: 12
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: 12
-
-                    RoundedRadioButton {
-                        anchors.verticalCenter: parent.verticalCenter
-                        checked: clipStyleModel.currentClipStyle === ClipStyle.CLASSIC
-
-                        onToggled: {
-                            clipStyleModel.selectClipStyle(ClipStyle.CLASSIC);
-                        }
-                    }
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: 4
-
-                        StyledTextLabel {
-                            font: ui.theme.bodyBoldFont
-                            text: "Classic"
-                        }
-                        StyledTextLabel {
-                            font: ui.theme.bodyFont
-                            opacity: 0.7
-                            text: "The clips you know and love"
-                        }
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: {
-                        clipStyleModel.selectClipStyle(ClipStyle.CLASSIC);
                     }
                 }
             }
@@ -142,7 +83,7 @@ DoublePage {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         smooth: true
-        source: getClipImageSource(clipStyleModel.currentClipStyle)
+        source: clipStyleModel.currentImagePath
 
         onStatusChanged: {
             if (status === Image.Error) {

@@ -25,6 +25,7 @@ void ClipVisualizationPageModel::load()
     colorful.style = static_cast<int>(ClipStyles::Style::COLORFUL);
     colorful.title = qtrc("appshell/gettingstarted", "Colourful");
     colorful.description = qtrc("appshell/gettingstarted", "Each track gets a new colour");
+    colorful.imagePath = "resources/ClipVisuals_ColourfulClips.png";
     colorful.selected = false;
     m_clipStyles.append(colorful);
 
@@ -32,6 +33,7 @@ void ClipVisualizationPageModel::load()
     classic.style = static_cast<int>(ClipStyles::Style::CLASSIC);
     classic.title = qtrc("appshell/gettingstarted", "Classic");
     classic.description = qtrc("appshell/gettingstarted", "The clips you know and love");
+    classic.imagePath = "resources/ClipVisuals_ClassicClips.png";
     classic.selected = false;
     m_clipStyles.append(classic);
 
@@ -67,6 +69,22 @@ int ClipVisualizationPageModel::currentClipStyle() const
     return static_cast<int>(projectSceneConfiguration()->clipStyle());
 }
 
+QString ClipVisualizationPageModel::currentImagePath() const
+{
+    int currentStyleValue = currentClipStyle();
+    for (const ClipStyleInfo& style : m_clipStyles) {
+        if (style.style == currentStyleValue) {
+            return style.imagePath;
+        }
+    }
+    return ""; // Fallback
+}
+
+QString ClipVisualizationPageModel::pageTitle() const
+{
+    return qtrc("appshell/gettingstarted", "Clip visualisation");
+}
+
 void ClipVisualizationPageModel::updateClipStyles()
 {
     int currentStyleValue = currentClipStyle();
@@ -76,5 +94,3 @@ void ClipVisualizationPageModel::updateClipStyles()
     emit clipStylesChanged();
     emit currentClipStyleChanged();
 }
-
-
