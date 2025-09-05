@@ -18,6 +18,7 @@
         <file>qml/shared/internal/ThemeSample.qml</file>
         <file>qml/FirstLaunchSetup/FirstLaunchSetupDialog.qml</file>
         <file>qml/FirstLaunchSetup/Page.qml</file>
+        <file>qml/FirstLaunchSetup/DoublePage.qml</file>
         <file>qml/FirstLaunchSetup/ThemesPage.qml</file>
         <file>qml/FirstLaunchSetup/ClipVisualizationPage.qml</file>
         <file>qml/FirstLaunchSetup/WorkspaceLayoutPage.qml</file>
