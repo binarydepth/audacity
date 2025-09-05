@@ -11,40 +11,22 @@ import Audacity.AppShell 1.0
 DoublePage {
     id: root
 
-    function getDescription(code) {
-        switch (code) {
-        case "modern":
-            return qsTrc("appshell/gettingstarted", "A clearer interface. Ideal for new users");
-        case "classic":
-            return qsTrc("appshell/gettingstarted", "Closely matches the layout of Audacity 3");
-        default:
-            return "";
-        }
-    }
-    function getWorkspaceImageSource(code) {
-        // Detect if current theme is dark by checking background color brightness
-        var isDarkTheme = ui.theme.backgroundPrimaryColor.toString().indexOf("#") === 0 ? parseInt(ui.theme.backgroundPrimaryColor.toString().substr(1), 16) < 0x808080 : false;
-
-        // Use the existing image files for both modern and classic
-        return isDarkTheme ? "resources/UILayout_DarkMode.png" : "resources/UILayout_LightMode.png";
-    }
-
-    title: qsTrc("appshell/gettingstarted", "What UI layout (workspace) do you want?")
+    title: workspaceModel.pageTitle
 
     // Left side content
     leftContent: Column {
         anchors.fill: parent
-        spacing: 16
+        spacing: 0
 
-        // Workspace options
+        // Radio button options
         Column {
             spacing: 8
             width: parent.width
 
             Repeater {
-                id: workspaceRepeater
+                id: optionsRepeater
 
-                model: model.workspaces
+                model: workspaceModel.workspaces
 
                 delegate: Rectangle {
                     border.color: modelData.selected ? ui.theme.accentColor : ui.theme.strokeColor
@@ -68,7 +50,7 @@ DoublePage {
                             checked: modelData.selected
 
                             onToggled: {
-                                model.selectWorkspace(modelData.code);
+                                workspaceModel.selectWorkspace(modelData.code);
                             }
                         }
                         Column {
@@ -83,7 +65,7 @@ DoublePage {
                                 anchors.left: parent.left
                                 font: ui.theme.bodyFont
                                 horizontalAlignment: Text.AlignLeft
-                                text: getDescription(modelData.code)
+                                text: modelData.description
                                 width: 172 // hardcoded width to fit the text for now
                                 wrapMode: Text.WordWrap
                             }
@@ -93,7 +75,7 @@ DoublePage {
                         anchors.fill: parent
 
                         onClicked: {
-                            model.selectWorkspace(modelData.code);
+                            workspaceModel.selectWorkspace(modelData.code);
                         }
                     }
                     NavigationControl {
@@ -125,7 +107,7 @@ DoublePage {
             }
 
             Item {
-                height: 30  // This creates 30px of space
+                height: 30  // This creates 30px of space + 8px of spacing from the previous item
                 width: parent.width
             }
 
@@ -138,8 +120,8 @@ DoublePage {
                 width: parent.width
                 wrapMode: Text.WordWrap
             }
-        } // End of workspace options Column
-    } // End of left side Column
+        }
+    }
 
     // Right side content
     rightContent: Image {
@@ -149,14 +131,7 @@ DoublePage {
         fillMode: Image.PreserveAspectFit
         mipmap: true
         smooth: false
-        source: {
-            for (var i = 0; i < model.workspaces.length; i++) {
-                if (model.workspaces[i].selected) {
-                    return getWorkspaceImageSource(model.workspaces[i].code)
-                }
-            }
-            return ""
-        }
+        source: workspaceModel.currentImagePath
 
         onStatusChanged: {
             if (status === Image.Error) {
@@ -168,7 +143,7 @@ DoublePage {
     }
 
     Component.onCompleted: {
-        model.load();
+        workspaceModel.load();
     }
 
     SeparatorLine {
@@ -176,18 +151,6 @@ DoublePage {
         orientation: Qt.Vertical
     }
     WorkspaceLayoutPageModel {
-        id: model
-
-    }
-
-    // Listen to theme changes to update workspace images
-    Connections {
-        function onThemeChanged() {
-            // Force update of images when theme changes
-            workspaceRepeater.model = undefined;
-            workspaceRepeater.model = model.workspaces;
-        }
-
-        target: ui.theme
+        id: workspaceModel
     }
 }

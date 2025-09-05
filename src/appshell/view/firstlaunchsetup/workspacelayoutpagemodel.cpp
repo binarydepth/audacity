@@ -8,6 +8,10 @@ using namespace muse;
 WorkspaceLayoutPageModel::WorkspaceLayoutPageModel(QObject* parent)
     : QObject(parent)
 {
+    // Listen to theme changes to update image paths
+    uiConfiguration()->currentThemeChanged().onNotify(this, [this]() {
+        updateWorkspaces();
+    });
 }
 
 void WorkspaceLayoutPageModel::load()
@@ -18,18 +22,19 @@ void WorkspaceLayoutPageModel::load()
     WorkspaceInfo modern;
     modern.code = "modern";
     modern.title = qtrc("appshell/gettingstarted", "Modern");
-    modern.iconCode = "WORKSPACE";
+    modern.description = qtrc("appshell/gettingstarted", "A clearer interface. Ideal for new users");
+    modern.imagePath = "resources/UILayout_LightMode.png"; // Will be updated based on theme
     modern.selected = true;
     m_workspaces.append(modern);
 
     WorkspaceInfo classic;
     classic.code = "classic";
     classic.title = qtrc("appshell/gettingstarted", "Classic");
-    classic.iconCode = "WORKSPACE_CLASSIC";
+    classic.description = qtrc("appshell/gettingstarted", "Closely matches the layout of Audacity 3");
+    classic.imagePath = "resources/UILayout_LightMode.png"; // Will be updated based on theme
     classic.selected = false;
     m_workspaces.append(classic);
 
-    m_selectedWorkspaceCode = "modern";
     updateWorkspaces();
 
 #ifdef MUSE_MODULE_WORKSPACE
@@ -44,12 +49,16 @@ void WorkspaceLayoutPageModel::load()
 
 void WorkspaceLayoutPageModel::selectWorkspace(const QString& workspaceCode)
 {
-    if (m_selectedWorkspaceCode == workspaceCode) {
+    if (currentWorkspaceCode() == workspaceCode) {
         return;
     }
 
-    m_selectedWorkspaceCode = workspaceCode;
-    updateWorkspaces();
+    // Update selection state
+    for (WorkspaceInfo& workspace : m_workspaces) {
+        workspace.selected = (workspace.code == workspaceCode);
+    }
+
+    emit workspacesChanged();
 
 #ifdef MUSE_MODULE_WORKSPACE
     // Apply the workspace selection
@@ -69,10 +78,40 @@ QVariantList WorkspaceLayoutPageModel::workspaces() const
     return result;
 }
 
+QString WorkspaceLayoutPageModel::currentWorkspaceCode() const
+{
+    for (const WorkspaceInfo& workspace : m_workspaces) {
+        if (workspace.selected) {
+            return workspace.code;
+        }
+    }
+    return "modern"; // Default fallback
+}
+
+QString WorkspaceLayoutPageModel::currentImagePath() const
+{
+    for (const WorkspaceInfo& workspace : m_workspaces) {
+        if (workspace.selected) {
+            return workspace.imagePath;
+        }
+    }
+    return ""; // Fallback
+}
+
+QString WorkspaceLayoutPageModel::pageTitle()
+{
+    return qtrc("appshell/gettingstarted", "What UI layout (workspace) do you want?");
+}
+
 void WorkspaceLayoutPageModel::updateWorkspaces()
 {
+    // Update image paths based on current theme
+    const bool isDarkTheme = uiConfiguration()->isDarkMode();
+    const QString imagePath = isDarkTheme ? "resources/UILayout_DarkMode.png" : "resources/UILayout_LightMode.png";
+
     for (WorkspaceInfo& workspace : m_workspaces) {
-        workspace.selected = (workspace.code == m_selectedWorkspaceCode);
+        workspace.imagePath = imagePath;
     }
+
     emit workspacesChanged();
 }
