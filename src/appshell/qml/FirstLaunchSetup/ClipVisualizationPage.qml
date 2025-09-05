@@ -7,15 +7,16 @@ import QtQuick.Layouts 1.15
 import Muse.Ui 1.0
 import Muse.UiComponents 1.0
 import Audacity.AppShell 1.0
+import Audacity.ProjectScene 1.0
 
 DoublePage {
     id: root
 
-    function getClipImageSource(code) {
-        switch (code) {
-        case "colorful":
+    function getClipImageSource(style) {
+        switch (style) {
+        case ClipStyle.COLORFUL:
             return "resources/ClipVisuals_ColourfulClips.png";
-        case "classic":
+        case ClipStyle.CLASSIC:
             return "resources/ClipVisuals_ClassicClips.png";
         default:
             return "";
@@ -36,8 +37,8 @@ DoublePage {
 
             // Colorful option
             Rectangle {
-                border.color: clipStyleModel.currentClipStyleCode === "colorful" ? ui.theme.accentColor : ui.theme.strokeColor
-                border.width: clipStyleModel.currentClipStyleCode === "colorful" ? 1 : 1
+                border.color: clipStyleModel.currentClipStyle === ClipStyle.COLORFUL ? ui.theme.accentColor : ui.theme.strokeColor
+                border.width: clipStyleModel.currentClipStyle === ClipStyle.COLORFUL ? 1 : 1
                 color: "transparent"
                 height: 60
                 radius: 4
@@ -54,10 +55,10 @@ DoublePage {
 
                     RoundedRadioButton {
                         anchors.verticalCenter: parent.verticalCenter
-                        checked: clipStyleModel.currentClipStyleCode === "colorful"
+                        checked: clipStyleModel.currentClipStyle === ClipStyle.COLORFUL
 
                         onToggled: {
-                            clipStyleModel.selectClipStyle("colorful");
+                            clipStyleModel.selectClipStyle(ClipStyle.COLORFUL);
                         }
                     }
                     Column {
@@ -79,15 +80,15 @@ DoublePage {
                     anchors.fill: parent
 
                     onClicked: {
-                        clipStyleModel.selectClipStyle("colorful");
+                        clipStyleModel.selectClipStyle(ClipStyle.COLORFUL);
                     }
                 }
             }
 
             // Classic option
             Rectangle {
-                border.color: clipStyleModel.currentClipStyleCode === "classic" ? ui.theme.accentColor : ui.theme.strokeColor
-                border.width: clipStyleModel.currentClipStyleCode === "classic" ? 1 : 1
+                border.color: clipStyleModel.currentClipStyle === ClipStyle.CLASSIC ? ui.theme.accentColor : ui.theme.strokeColor
+                border.width: clipStyleModel.currentClipStyle === ClipStyle.CLASSIC ? 1 : 1
                 color: "transparent"
                 height: 60
                 radius: 4
@@ -104,10 +105,10 @@ DoublePage {
 
                     RoundedRadioButton {
                         anchors.verticalCenter: parent.verticalCenter
-                        checked: clipStyleModel.currentClipStyleCode === "classic"
+                        checked: clipStyleModel.currentClipStyle === ClipStyle.CLASSIC
 
                         onToggled: {
-                            clipStyleModel.selectClipStyle("classic");
+                            clipStyleModel.selectClipStyle(ClipStyle.CLASSIC);
                         }
                     }
                     Column {
@@ -129,7 +130,7 @@ DoublePage {
                     anchors.fill: parent
 
                     onClicked: {
-                        clipStyleModel.selectClipStyle("classic");
+                        clipStyleModel.selectClipStyle(ClipStyle.CLASSIC);
                     }
                 }
             }
@@ -141,7 +142,7 @@ DoublePage {
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         smooth: true
-        source: getClipImageSource(clipStyleModel.currentClipStyleCode)
+        source: getClipImageSource(clipStyleModel.currentClipStyle)
 
         onStatusChanged: {
             if (status === Image.Error) {
