@@ -8,204 +8,188 @@ import Muse.Ui 1.0
 import Muse.UiComponents 1.0
 import Audacity.AppShell 1.0
 
-Page {
+DoublePage {
     id: root
-
-    title: ""
-
-    titleContentSpacing: 0
-
-    WorkspaceLayoutPageModel {
-        id: model
-    }
-
-    // Listen to theme changes to update workspace images
-    Connections {
-        target: ui.theme
-        function onThemeChanged() {
-            // Force update of images when theme changes
-            workspaceRepeater.model = undefined
-            workspaceRepeater.model = model.workspaces
-        }
-    }
-
-    Component.onCompleted: {
-        model.load()
-    }
 
     function getDescription(code) {
         switch (code) {
         case "modern":
-            return qsTrc("appshell/gettingstarted", "A clearer interface. Ideal for new users")
+            return qsTrc("appshell/gettingstarted", "A clearer interface. Ideal for new users");
         case "classic":
-            return qsTrc("appshell/gettingstarted", "Closely matches the layout of Audacity 3")
+            return qsTrc("appshell/gettingstarted", "Closely matches the layout of Audacity 3");
         default:
-            return ""
+            return "";
         }
     }
-
     function getWorkspaceImageSource(code) {
         // Detect if current theme is dark by checking background color brightness
-        var isDarkTheme = ui.theme.backgroundPrimaryColor.toString().indexOf("#") === 0 ?
-                         parseInt(ui.theme.backgroundPrimaryColor.toString().substr(1), 16) < 0x808080 : false
+        var isDarkTheme = ui.theme.backgroundPrimaryColor.toString().indexOf("#") === 0 ? parseInt(ui.theme.backgroundPrimaryColor.toString().substr(1), 16) < 0x808080 : false;
 
-        switch (code) {
-        case "modern":
-            return isDarkTheme ? "resources/UILayout_Modern_DarkMode.png" : "resources/UILayout_Modern_LightMode.png"
-        case "classic":
-            return isDarkTheme ? "resources/UILayout_Classic_DarkMode.png" : "resources/UILayout_Classic_LightMode.png"
-        default:
+        // Use the existing image files for both modern and classic
+        return isDarkTheme ? "resources/UILayout_DarkMode.png" : "resources/UILayout_LightMode.png";
+    }
+
+    title: qsTrc("appshell/gettingstarted", "What UI layout (workspace) do you want?")
+
+    // Left side content
+    leftContent: Column {
+        anchors.fill: parent
+        spacing: 16
+
+        // Workspace options
+        Column {
+            spacing: 8
+            width: parent.width
+
+            Repeater {
+                id: workspaceRepeater
+
+                model: model.workspaces
+
+                delegate: Rectangle {
+                    border.color: modelData.selected ? ui.theme.accentColor : ui.theme.strokeColor
+                    border.width: modelData.selected ? 2 : 1
+                    color: "transparent"
+                    height: 76
+                    radius: 4
+                    width: parent.width
+
+                    Row {
+                        anchors.bottomMargin: 12
+                        anchors.left: parent.left
+                        anchors.leftMargin: 12
+                        anchors.rightMargin: 16
+                        anchors.topMargin: 12
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 12
+
+                        RoundedRadioButton {
+                            anchors.verticalCenter: parent.verticalCenter
+                            checked: modelData.selected
+
+                            onToggled: {
+                                model.selectWorkspace(modelData.code);
+                            }
+                        }
+                        Column {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 4
+
+                            StyledTextLabel {
+                                font: ui.theme.bodyBoldFont
+                                text: modelData.title
+                            }
+                            StyledTextLabel {
+                                anchors.left: parent.left
+                                font: ui.theme.bodyFont
+                                horizontalAlignment: Text.AlignLeft
+                                opacity: 0.7
+                                text: getDescription(modelData.code)
+                                width: 172 // hardcoded width to fit the text for now
+                                wrapMode: Text.WordWrap
+                            }
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: {
+                            model.selectWorkspace(modelData.code);
+                        }
+                    }
+                    NavigationControl {
+                        accessible.name: modelData.title
+                        accessible.role: Accessible.Button
+                        column: 0
+                        enabled: parent.enabled && parent.visible
+                        name: "Workspace_" + modelData.code
+                        row: index
+
+                        panel: NavigationPanel {
+                            direction: NavigationPanel.Horizontal
+                            enabled: parent.enabled && parent.visible
+                            name: "WorkspacePanel"
+                            order: root.navigationStartRow + 1
+                            section: root.navigationSection
+                        }
+
+                        onActiveChanged: {
+                            if (active) {
+                                parent.forceActiveFocus();
+                            }
+                        }
+                        onTriggered: {
+                            model.selectWorkspace(modelData.code);
+                        }
+                    }
+                }
+            }
+
+            Item {
+                height: 30  // This creates 30px of space
+                width: parent.width
+            }
+
+            // Additional info text
+            StyledTextLabel {
+                anchors.left: parent.left
+                font: ui.theme.bodyFont
+                horizontalAlignment: Text.AlignLeft
+                opacity: 0.7
+                text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
+                width: parent.width
+                wrapMode: Text.WordWrap
+            }
+        } // End of workspace options Column
+    } // End of left side Column
+
+    // Right side content
+    rightContent: Image {
+        anchors.fill: parent
+        asynchronous: true
+        cache: true
+        fillMode: Image.PreserveAspectFit
+        mipmap: true
+        smooth: false
+        source: {
+            for (var i = 0; i < model.workspaces.length; i++) {
+                if (model.workspaces[i].selected) {
+                    return getWorkspaceImageSource(model.workspaces[i].code)
+                }
+            }
             return ""
+        }
+
+        onStatusChanged: {
+            if (status === Image.Error) {
+                console.log("Failed to load workspace image:", source)
+            } else if (status === Image.Ready) {
+                console.log("Successfully loaded workspace image:", source)
+            }
         }
     }
 
-    RowLayout {
-        anchors.fill: parent
-        anchors.margins: 20
-        spacing: 20
+    Component.onCompleted: {
+        model.load();
+    }
 
-        // Left side - Title, description, and workspace options
-        Column {
-            Layout.preferredWidth: 280
-            Layout.alignment: Qt.AlignTop
-            spacing: 16
+    SeparatorLine {
+        anchors.horizontalCenter: parent.horizontalCenter
+        orientation: Qt.Vertical
+    }
+    WorkspaceLayoutPageModel {
+        id: model
 
-            // Title
-            StyledTextLabel {
-                text: qsTrc("appshell/gettingstarted", "What UI layout (workspace) do you want?")
-                font: ui.theme.largeBodyBoldFont
-                wrapMode: Text.Wrap
-            }
+    }
 
-            // Workspace options
-            Column {
-                width: parent.width
-                spacing: 8
-
-                Repeater {
-                    id: workspaceRepeater
-                    model: model.workspaces
-
-                    delegate: Rectangle {
-                        width: parent.width
-                        height: 50
-                        color: "transparent"
-                        border.color: modelData.selected ? ui.theme.accentColor : ui.theme.strokeColor
-                        border.width: modelData.selected ? 2 : 1
-                        radius: 6
-
-                        Row {
-                            anchors.left: parent.left
-                            anchors.leftMargin: 16
-                            anchors.verticalCenter: parent.verticalCenter
-                            spacing: 12
-
-                            RoundedRadioButton {
-                                anchors.verticalCenter: parent.verticalCenter
-                                checked: modelData.selected
-                                onToggled: {
-                                    model.selectWorkspace(modelData.code)
-                                }
-                            }
-
-                            Column {
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: 2
-
-                                StyledTextLabel {
-                                    text: modelData.title
-                                    font: ui.theme.bodyBoldFont
-                                }
-
-                                StyledTextLabel {
-                                    text: getDescription(modelData.code)
-                                    opacity: 0.7
-                                    font: ui.theme.bodyFont
-                                }
-                            }
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                model.selectWorkspace(modelData.code)
-                            }
-                        }
-
-                        NavigationControl {
-                            name: "Workspace_" + modelData.code
-                            enabled: parent.enabled && parent.visible
-                            accessible.role: Accessible.Button
-                            accessible.name: modelData.title
-
-                            panel: NavigationPanel {
-                                name: "WorkspacePanel"
-                                enabled: parent.enabled && parent.visible
-                                section: root.navigationSection
-                                order: root.navigationStartRow + 1
-                                direction: NavigationPanel.Horizontal
-                            }
-                            row: index
-                            column: 0
-
-                            onActiveChanged: {
-                                if (active) {
-                                    parent.forceActiveFocus()
-                                }
-                            }
-
-                            onTriggered: {
-                                model.selectWorkspace(modelData.code)
-                            }
-                        }
-                    }
-                }
-
-                // Additional info text
-                StyledTextLabel {
-                    width: parent.width
-                    text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
-                    opacity: 0.7
-                    wrapMode: Text.WordWrap
-                    font: ui.theme.bodyFont
-                }
-            } // End of workspace options Column
-        } // End of left side Column
-
-        // Right side - Preview area
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            Layout.minimumWidth: 200
-            Layout.minimumHeight: 150
-            color: ui.theme.backgroundSecondaryColor
-            border.color: ui.theme.strokeColor
-            border.width: 1
-            radius: 6
-
-            // Find the selected workspace and show its image
-            Image {
-                anchors.fill: parent
-                anchors.margins: 10
-                source: {
-                    for (var i = 0; i < model.workspaces.length; i++) {
-                        if (model.workspaces[i].selected) {
-                            return getWorkspaceImageSource(model.workspaces[i].code)
-                        }
-                    }
-                    return ""
-                }
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-
-                onStatusChanged: {
-                    if (status === Image.Error) {
-                        console.log("Failed to load workspace image:", source)
-                    } else if (status === Image.Ready) {
-                        console.log("Successfully loaded workspace image:", source)
-                    }
-                }
-            }
+    // Listen to theme changes to update workspace images
+    Connections {
+        function onThemeChanged() {
+            // Force update of images when theme changes
+            workspaceRepeater.model = undefined;
+            workspaceRepeater.model = model.workspaces;
         }
+
+        target: ui.theme
     }
 }
