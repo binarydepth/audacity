@@ -23,9 +23,9 @@ void ClipVisualizationPageModel::load()
 
     ClipStyleInfo colorful;
     colorful.style = static_cast<int>(ClipStyles::Style::COLORFUL);
-    colorful.title = qtrc("appshell/gettingstarted", "Colourful");
-    colorful.description = qtrc("appshell/gettingstarted", "Each track gets a new colour");
-    colorful.imagePath = "resources/ClipVisuals_ColourfulClips.png";
+    colorful.title = qtrc("appshell/gettingstarted", "Colorful");
+    colorful.description = qtrc("appshell/gettingstarted", "Each track gets a new color");
+    colorful.imagePath = "resources/ClipVisuals_ColorfulClips.png";
     colorful.selected = false;
     m_clipStyles.append(colorful);
 
@@ -82,7 +82,7 @@ QString ClipVisualizationPageModel::currentImagePath() const
 
 QString ClipVisualizationPageModel::pageTitle()
 {
-    return qtrc("appshell/gettingstarted", "Clip visualisation");
+    return qtrc("appshell/gettingstarted", "Clip visualization");
 }
 
 void ClipVisualizationPageModel::updateClipStyles()

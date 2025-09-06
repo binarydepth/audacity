@@ -129,7 +129,7 @@ Page {
                 Layout.alignment: Qt.AlignCenter
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                text: qsTrc("project", "Accent colour")
+                text: qsTrc("project", "Accent color")
                 font: ui.theme.bodyFont
             }
 

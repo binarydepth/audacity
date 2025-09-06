@@ -65,7 +65,7 @@ RadioButtonGroup {
 
         property color accentColor: modelData
 
-        navigation.name: "AccentColourButton"
+        navigation.name: "AccentColorButton"
         navigation.panel: root.navigationPanel
         navigation.row: root.navigationRow
         navigation.column: root.navigationColumnStart + model.index
