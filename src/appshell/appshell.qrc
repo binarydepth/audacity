@@ -29,7 +29,7 @@
         <file>qml/FirstLaunchSetup/resources/VideoTutorials.png</file>
         <file>qml/FirstLaunchSetup/resources/UnderConstruction.png</file>
         <file>qml/FirstLaunchSetup/resources/ClipVisuals_ClassicClips.png</file>
-        <file>qml/FirstLaunchSetup/resources/ClipVisuals_ColourfulClips.png</file>
+        <file>qml/FirstLaunchSetup/resources/ClipVisuals_ColorfulClips.png</file>
         <file>qml/FirstLaunchSetup/resources/UILayout_LightMode.png</file>
         <file>qml/FirstLaunchSetup/resources/UILayout_DarkMode.png</file>
         <file>qml/Preferences/PreferencesPage.qml</file>
