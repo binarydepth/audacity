@@ -7,6 +7,7 @@
 #include "async/asyncable.h"
 #include "modularity/ioc.h"
 #include "ui/iuiconfiguration.h"
+#include "muse_framework_config.h"
 
 #ifdef MUSE_MODULE_WORKSPACE
 #include "workspace/iworkspacemanager.h"

@@ -60,7 +60,7 @@ void ProjectSceneConfiguration::init()
     });
 
     muse::settings()->setDefaultValue(ASYMMETRIC_STEREO_HEIGHTS_WORKSPACES,
-                                      muse::Val("Advanced audio editing"));
+                                      muse::Val("Modern"));
     muse::settings()->valueChanged(ASYMMETRIC_STEREO_HEIGHTS_WORKSPACES).onReceive(nullptr, [this](const muse::Val& val) {
         m_asymmetricStereoHeightsWorkspacesChanged.notify();
     });
@@ -224,7 +224,7 @@ muse::async::Notification ProjectSceneConfiguration::stereoHeightsPrefChanged() 
 std::vector<std::string> ProjectSceneConfiguration::asymmetricStereoHeightsWorkspaces() const
 {
     // workspaces that have asymmetricStereoHeights enabled are stored as a string in muse::settings
-    // "Classic|Music|Advanced audio editing"
+    // "Classic|Music|Modern"
     std::vector<std::string> result;
     std::string combinedString = muse::settings()->value(ASYMMETRIC_STEREO_HEIGHTS_WORKSPACES).toString();
 
