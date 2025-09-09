@@ -29,10 +29,14 @@ import Audacity.AppShell 1.0
 StyledDialogView {
     id: root
 
+    modal: true
+    frameless: true
+    closeOnEscape: false
+
     title: qsTrc("appshell/gettingstarted", "Getting started")
 
     contentWidth: 560
-    contentHeight: 414
+    contentHeight: 442
 
     margins: 0
 
@@ -67,6 +71,22 @@ StyledDialogView {
         anchors.fill: parent
         spacing: 0
         Layout.margins: 0
+
+        StyledTextLabel {
+            Layout.preferredHeight: 27 // 28 - 1 for the SeparatorLine
+            // Layout.topMargin: 6
+            // Layout.bottomMargin: 6
+            Layout.leftMargin: 8
+            Layout.alignment: Qt.AlignLeft
+            text: title
+            font: ui.theme.bodyFont
+        }
+
+        SeparatorLine {
+            Layout.fillWidth: true
+            Layout.margins: 0
+            Layout.preferredHeight: 1
+        }
 
         Loader {
             id: pageLoader
@@ -153,7 +173,7 @@ StyledDialogView {
 
                 text: qsTrc("global", "Back")
                 enabled: model.canGoBack
-                visible: true
+                visible: model.canGoBack
 
                 navigation.name: "BackButton"
                 navigation.panel: buttons.navigationPanel
