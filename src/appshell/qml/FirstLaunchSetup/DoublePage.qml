@@ -24,9 +24,7 @@ Item {
     property alias rightContent: rightContentItem.data
 
     // Optional properties for customization
-    property int leftWidth: 280
-    property int rightWidth: 280
-    property int contentSpacing: 20
+    property bool showRightContent: true
 
     anchors.fill: parent
 
@@ -105,8 +103,9 @@ Item {
         // Right side - Preview/Image
         Item {
             id: rightContentItem
-            Layout.fillWidth: true
+            Layout.fillWidth: root.showRightContent
             Layout.fillHeight: true
+            visible: root.showRightContent
         }
     }
 }

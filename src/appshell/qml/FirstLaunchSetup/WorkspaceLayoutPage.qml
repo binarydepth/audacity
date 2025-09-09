@@ -10,13 +10,14 @@ import Audacity.AppShell 1.0
 
 DoublePage {
     id: root
+    showRightContent: false
 
     title: workspaceModel.pageTitle
 
     // Left side content
     leftContent: Column {
         anchors.fill: parent
-        spacing: 0
+        spacing: 16
 
         // Radio button options
         Column {
@@ -32,7 +33,7 @@ DoublePage {
                     border.color: modelData.selected ? ui.theme.accentColor : ui.theme.strokeColor
                     border.width: 1
                     color: "transparent"
-                    height: 76
+                    height: 60
                     radius: 4
                     width: parent.width
 
@@ -66,7 +67,7 @@ DoublePage {
                                 font: ui.theme.bodyFont
                                 horizontalAlignment: Text.AlignLeft
                                 text: modelData.description
-                                width: 172 // hardcoded width to fit the text for now
+                                // width: 172 // hardcoded width to fit the text for now
                                 wrapMode: Text.WordWrap
                             }
                         }
@@ -105,21 +106,15 @@ DoublePage {
                     }
                 }
             }
+        }
 
-            Item {
-                height: 30  // This creates 30px of space + 8px of spacing from the previous item
-                width: parent.width
-            }
-
-            // Additional info text
-            StyledTextLabel {
-                anchors.left: parent.left
-                font: ui.theme.bodyFont
-                horizontalAlignment: Text.AlignLeft
-                text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
-                width: parent.width
-                wrapMode: Text.WordWrap
-            }
+        // Additional info text
+        StyledTextLabel {
+            font: ui.theme.bodyFont
+            horizontalAlignment: Text.AlignLeft
+            text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
+            width: parent.width
+            wrapMode: Text.WordWrap
         }
     }
 
@@ -149,6 +144,13 @@ DoublePage {
     SeparatorLine {
         anchors.horizontalCenter: parent.horizontalCenter
         orientation: Qt.Vertical
+        visible: showRightContent
+    }
+
+    SeparatorLine {
+        anchors.right: parent.right
+        orientation: Qt.Vertical
+        visible: showRightContent
     }
     WorkspaceLayoutPageModel {
         id: workspaceModel
