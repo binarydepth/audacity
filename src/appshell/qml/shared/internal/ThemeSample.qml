@@ -109,7 +109,7 @@ Rectangle {
                     width: 32
 
                     radius: 2
-                    color: Utils.colorWithAlpha(root.theme.accentColor, root.theme.buttonOpacityNormal)
+                    color: Utils.colorWithAlpha(root.theme.buttonColor, root.theme.buttonOpacityNormal)
                     border.color: root.theme.strokeColor
                     border.width: root.theme.borderWidth
                 }
@@ -119,7 +119,7 @@ Rectangle {
                     width: 32
 
                     radius: 2
-                    color: Utils.colorWithAlpha(root.theme.buttonColor, root.theme.buttonOpacityNormal)
+                    color: Utils.colorWithAlpha(root.theme.accentColor, root.theme.buttonOpacityNormal)
                     border.color: root.theme.strokeColor
                     border.width: root.theme.borderWidth
                 }
