@@ -104,6 +104,11 @@ DoublePage {
         anchors.horizontalCenter: parent.horizontalCenter
         orientation: Qt.Vertical
     }
+
+    SeparatorLine {
+        anchors.right: parent.right
+        orientation: Qt.Vertical
+    }
     ClipVisualizationPageModel {
         id: clipStyleModel
     }
