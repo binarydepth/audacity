@@ -41,6 +41,17 @@ Page {
         model.load()
     }
 
+    // Shared navigation panel for checkboxes
+    property NavigationPanel checkboxesPanel: NavigationPanel {
+        name: "CheckboxesPanel"
+        enabled: root.enabled && root.visible
+        section: root.navigationSection
+        order: root.navigationStartRow + 2
+        direction: NavigationPanel.Vertical
+        accessible.name: qsTrc("appshell/gettingstarted", "Theme options")
+        accessible.description: qsTrc("appshell/gettingstarted", "Additional theme configuration options")
+    }
+
     ColumnLayout {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
@@ -80,14 +91,9 @@ Page {
                 checked: model.isFollowSystemTheme
 
                 navigation.name: "FollowSystemThemeBox"
-                navigation.order: 1
-                navigation.panel: NavigationPanel {
-                    name: "FollowSystemThemePanel"
-                    enabled: parent.enabled && parent.visible
-                    section: root.navigationSection
-                    order: root.navigationStartRow + 2
-                    direction: NavigationPanel.Horizontal
-                }
+                navigation.panel: root.checkboxesPanel
+                navigation.row: 0
+                navigation.column: 0
 
                 onClicked: {
                     model.isFollowSystemTheme = !checked
@@ -101,15 +107,10 @@ Page {
                 checked: model.highContrastEnabled
 
                 navigation.name: "EnableHighContrastCheckbox"
-                navigation.order: 1
-                navigation.panel: NavigationPanel {
-                    name: "EnableHighContrastPanel"
-                    enabled: parent.enabled && parent.visible
-                    section: root.navigationSection
-                    order: root.navigationStartRow + 3
-                    direction: NavigationPanel.Horizontal
-                }
                 navigation.accessible.description: highContrastPreferencesHintLabel.text
+                navigation.panel: root.checkboxesPanel
+                navigation.row: 1
+                navigation.column: 0
 
                 onClicked: {
                     model.highContrastEnabled = !checked
@@ -146,7 +147,7 @@ Page {
                 spacing: 6
 
                 navigationPanel.section: root.navigationSection
-                navigationPanel.order: root.navigationStartRow + 4
+                navigationPanel.order: root.navigationStartRow + 3
 
                 onAccentColorChangeRequested: function (newColorIndex) {
                     model.currentAccentColorIndex = newColorIndex
