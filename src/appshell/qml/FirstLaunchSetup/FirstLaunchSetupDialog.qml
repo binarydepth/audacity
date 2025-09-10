@@ -29,6 +29,7 @@ import Audacity.AppShell 1.0
 StyledDialogView {
     id: root
 
+    objectName: "FirstLaunchSetupDialog"
     modal: true
     frameless: true
     closeOnEscape: false

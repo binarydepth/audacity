@@ -14,6 +14,8 @@ DoublePage {
 
     title: workspaceModel.pageTitle
 
+    navigationPanel.direction: NavigationPanel.Vertical
+
     // Left side content
     leftContent: Column {
         anchors.fill: parent
@@ -50,6 +52,11 @@ DoublePage {
                             anchors.verticalCenter: parent.verticalCenter
                             checked: modelData.selected
 
+                            navigation.name: "Workspace_" + modelData.code
+                            navigation.panel: root.navigationPanel
+                            navigation.column: 0
+                            navigation.row: index
+
                             onToggled: {
                                 workspaceModel.selectWorkspace(modelData.code);
                             }
@@ -79,31 +86,7 @@ DoublePage {
                             workspaceModel.selectWorkspace(modelData.code);
                         }
                     }
-                    NavigationControl {
-                        accessible.name: modelData.title
-                        accessible.role: Accessible.Button
-                        column: 0
-                        enabled: parent.enabled && parent.visible
-                        name: "Workspace_" + modelData.code
-                        row: index
 
-                        panel: NavigationPanel {
-                            direction: NavigationPanel.Horizontal
-                            enabled: parent.enabled && parent.visible
-                            name: "WorkspacePanel"
-                            order: root.navigationStartRow + 1
-                            section: root.navigationSection
-                        }
-
-                        onActiveChanged: {
-                            if (active) {
-                                parent.forceActiveFocus();
-                            }
-                        }
-                        onTriggered: {
-                            model.selectWorkspace(modelData.code);
-                        }
-                    }
                 }
             }
         }

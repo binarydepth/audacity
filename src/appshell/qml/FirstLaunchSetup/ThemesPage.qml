@@ -56,7 +56,7 @@ Page {
             spacing: 24
 
             navigationPanel.section: root.navigationSection
-            navigationPanel.order: root.navigationStartRow + 2
+            navigationPanel.order: root.navigationStartRow + 1
 
             onThemeChangeRequested: function(newThemeCode) {
                 model.currentThemeCode = newThemeCode
@@ -82,10 +82,10 @@ Page {
                 navigation.name: "FollowSystemThemeBox"
                 navigation.order: 1
                 navigation.panel: NavigationPanel {
-                    name: "FollowSystemThemeBox"
+                    name: "FollowSystemThemePanel"
                     enabled: parent.enabled && parent.visible
                     section: root.navigationSection
-                    order: root.navigationStartRow + 1
+                    order: root.navigationStartRow + 2
                     direction: NavigationPanel.Horizontal
                 }
 
@@ -103,10 +103,10 @@ Page {
                 navigation.name: "EnableHighContrastCheckbox"
                 navigation.order: 1
                 navigation.panel: NavigationPanel {
-                    name: "EnableHighContrast"
+                    name: "EnableHighContrastPanel"
                     enabled: parent.enabled && parent.visible
                     section: root.navigationSection
-                    order: root.navigationStartRow + 4
+                    order: root.navigationStartRow + 3
                     direction: NavigationPanel.Horizontal
                 }
                 navigation.accessible.description: highContrastPreferencesHintLabel.text
@@ -146,7 +146,7 @@ Page {
                 spacing: 6
 
                 navigationPanel.section: root.navigationSection
-                navigationPanel.order: root.navigationStartRow + 3
+                navigationPanel.order: root.navigationStartRow + 4
 
                 onAccentColorChangeRequested: function (newColorIndex) {
                     model.currentAccentColorIndex = newColorIndex

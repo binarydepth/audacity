@@ -14,6 +14,8 @@ DoublePage {
 
     title: clipStyleModel.pageTitle
 
+    navigationPanel.direction: NavigationPanel.Vertical
+
     // Left side content
     leftContent: Column {
         anchors.fill: parent
@@ -49,6 +51,11 @@ DoublePage {
                         RoundedRadioButton {
                             anchors.verticalCenter: parent.verticalCenter
                             checked: modelData.selected
+
+                            navigation.name: "ClipStyleButton_" + index
+                            navigation.panel: root.navigationPanel
+                            navigation.column: 0
+                            navigation.row: index
 
                             onToggled: {
                                 clipStyleModel.selectClipStyle(modelData.style);
