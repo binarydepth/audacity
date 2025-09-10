@@ -15,6 +15,18 @@ DoublePage {
     title: workspaceModel.pageTitle
 
     navigationPanel.direction: NavigationPanel.Vertical
+    navigationPanel.accessible.name: qsTrc("appshell/gettingstarted", "Workspace layout options")
+    navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose your preferred workspace layout for the Audacity interface")
+
+    // Page-level accessibility information
+    AccessibleItem {
+        id: pageAccessibleInfo
+        accessibleParent: root.navigationSection.accessible
+        visualItem: root
+        role: MUAccessible.Panel
+        name: root.title
+        description: qsTrc("appshell/gettingstarted", "Select a workspace layout that suits your workflow. You can change this later.")
+    }
 
     // Left side content
     leftContent: Column {
@@ -56,6 +68,10 @@ DoublePage {
                             navigation.panel: root.navigationPanel
                             navigation.column: 0
                             navigation.row: index
+                            navigation.accessible.name: modelData.title
+                            navigation.accessible.description: modelData.description + ". " +
+                                (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
+                                 qsTrc("appshell/gettingstarted", "Click to select this workspace"))
 
                             onToggled: {
                                 workspaceModel.selectWorkspace(modelData.code);
@@ -87,6 +103,17 @@ DoublePage {
                         }
                     }
 
+                    // Accessibility item for the entire workspace option
+                    AccessibleItem {
+                        accessibleParent: pageAccessibleInfo
+                        visualItem: parent
+                        role: MUAccessible.ListItem
+                        name: modelData.title
+                        description: modelData.description + ". " +
+                            (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
+                             qsTrc("appshell/gettingstarted", "Available workspace"))
+                    }
+
                 }
             }
         }
@@ -98,6 +125,15 @@ DoublePage {
             text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
             width: parent.width
             wrapMode: Text.WordWrap
+
+            // Accessibility for the info text
+            AccessibleItem {
+                accessibleParent: pageAccessibleInfo
+                visualItem: parent
+                role: MUAccessible.StaticText
+                name: qsTrc("appshell/gettingstarted", "Additional information")
+                description: parent.text
+            }
         }
     }
 
@@ -117,6 +153,15 @@ DoublePage {
             } else if (status === Image.Ready) {
                 console.log("Successfully loaded workspace image:", source)
             }
+        }
+
+        // Accessibility for the workspace preview image
+        AccessibleItem {
+            accessibleParent: pageAccessibleInfo
+            visualItem: parent
+            role: MUAccessible.Information
+            name: qsTrc("appshell/gettingstarted", "Workspace layout preview")
+            description: qsTrc("appshell/gettingstarted", "Preview of the selected workspace layout showing the arrangement of interface elements")
         }
     }
 

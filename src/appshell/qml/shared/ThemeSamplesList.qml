@@ -87,6 +87,14 @@ ListView {
             navigation.panel: root.navigationPanel
             navigation.row: root.navigationRow
             navigation.column: root.navigationColumnStart + model.index
+            navigation.accessible.name: modelData.title + " " + qsTrc("appshell/gettingstarted", "theme")
+            navigation.accessible.description: {
+                var desc = qsTrc("appshell/gettingstarted", "Select ") + modelData.title + " " + qsTrc("appshell/gettingstarted", "theme")
+                if (checked) {
+                    desc += ". " + qsTrc("appshell/gettingstarted", "Currently selected")
+                }
+                return desc
+            }
 
             onToggled: {
                 root.themeChangeRequested(modelData.codeKey)

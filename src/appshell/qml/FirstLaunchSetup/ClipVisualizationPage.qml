@@ -15,6 +15,18 @@ DoublePage {
     title: clipStyleModel.pageTitle
 
     navigationPanel.direction: NavigationPanel.Vertical
+    navigationPanel.accessible.name: qsTrc("appshell/gettingstarted", "Clip visualization options")
+    navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose how audio clips are displayed in the timeline")
+
+    // Page-level accessibility information
+    AccessibleItem {
+        id: pageAccessibleInfo
+        accessibleParent: root.navigationSection.accessible
+        visualItem: root
+        role: MUAccessible.Panel
+        name: root.title
+        description: qsTrc("appshell/gettingstarted", "Select your preferred clip visualization style. Preview is shown on the right.")
+    }
 
     // Left side content
     leftContent: Column {
@@ -56,6 +68,10 @@ DoublePage {
                             navigation.panel: root.navigationPanel
                             navigation.column: 0
                             navigation.row: index
+                            navigation.accessible.name: modelData.title
+                            navigation.accessible.description: modelData.description + ". " +
+                                (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
+                                 qsTrc("appshell/gettingstarted", "Click to select this style"))
 
                             onToggled: {
                                 clipStyleModel.selectClipStyle(modelData.style);
@@ -82,6 +98,17 @@ DoublePage {
                             clipStyleModel.selectClipStyle(modelData.style);
                         }
                     }
+
+                    // Accessibility item for the entire option
+                    AccessibleItem {
+                        accessibleParent: pageAccessibleInfo
+                        visualItem: parent
+                        role: MUAccessible.ListItem
+                        name: modelData.title
+                        description: modelData.description + ". " +
+                            (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
+                             qsTrc("appshell/gettingstarted", "Available option"))
+                    }
                 }
             }
         }
@@ -100,6 +127,15 @@ DoublePage {
             } else if (status === Image.Ready) {
                 console.log("Successfully loaded clip image:", source);
             }
+        }
+
+        // Accessibility for the preview image
+        AccessibleItem {
+            accessibleParent: pageAccessibleInfo
+            visualItem: parent
+            role: MUAccessible.Information
+            name: qsTrc("appshell/gettingstarted", "Clip visualization preview")
+            description: qsTrc("appshell/gettingstarted", "Preview of how audio clips will appear with the selected visualization style")
         }
     }
 

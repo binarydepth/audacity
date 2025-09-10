@@ -52,6 +52,16 @@ Page {
         accessible.description: qsTrc("appshell/gettingstarted", "Additional theme configuration options")
     }
 
+    // Page-level accessibility information
+    AccessibleItem {
+        id: pageAccessibleInfo
+        accessibleParent: root.navigationSection.accessible
+        visualItem: root
+        role: MUAccessible.Panel
+        name: root.title
+        description: qsTrc("appshell/gettingstarted", "Choose your preferred theme, follow system theme option, and accent color")
+    }
+
     ColumnLayout {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
@@ -68,6 +78,8 @@ Page {
 
             navigationPanel.section: root.navigationSection
             navigationPanel.order: root.navigationStartRow + 1
+            navigationPanel.accessible.name: qsTrc("appshell/gettingstarted", "Theme selection")
+            navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose between light, dark, or system theme")
 
             onThemeChangeRequested: function(newThemeCode) {
                 model.currentThemeCode = newThemeCode
@@ -94,6 +106,7 @@ Page {
                 navigation.panel: root.checkboxesPanel
                 navigation.row: 0
                 navigation.column: 0
+                navigation.accessible.description: qsTrc("appshell/gettingstarted", "When enabled, the theme will automatically match your system's theme setting")
 
                 onClicked: {
                     model.isFollowSystemTheme = !checked
@@ -107,10 +120,10 @@ Page {
                 checked: model.highContrastEnabled
 
                 navigation.name: "EnableHighContrastCheckbox"
-                navigation.accessible.description: highContrastPreferencesHintLabel.text
                 navigation.panel: root.checkboxesPanel
                 navigation.row: 1
                 navigation.column: 0
+                navigation.accessible.description: qsTrc("appshell/gettingstarted", "Enable high contrast mode for better visibility. ") + highContrastPreferencesHintLabel.text
 
                 onClicked: {
                     model.highContrastEnabled = !checked
@@ -148,6 +161,8 @@ Page {
 
                 navigationPanel.section: root.navigationSection
                 navigationPanel.order: root.navigationStartRow + 3
+                navigationPanel.accessible.name: qsTrc("project", "Accent color")
+                navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose an accent color for the interface")
 
                 onAccentColorChangeRequested: function (newColorIndex) {
                     model.currentAccentColorIndex = newColorIndex
@@ -162,6 +177,33 @@ Page {
             Layout.topMargin: 15
             Layout.preferredHeight: Math.max(implicitHeight, accentColorsList.implicitHeight)
             text: qsTrc("appshell/gettingstarted", "Further options for high contrast mode can be found in Preferences")
+        }
+
+        // Accessibility group for the entire page content
+        AccessibleItem {
+            id: contentAccessibleGroup
+            accessibleParent: pageAccessibleInfo
+            visualItem: root
+            role: MUAccessible.Group
+            name: qsTrc("appshell/gettingstarted", "Theme configuration")
+            description: {
+                var desc = qsTrc("appshell/gettingstarted", "Current theme: ") +
+                          (model.currentThemeCode === "LIGHT_FUSION" ? qsTrc("appshell/gettingstarted", "Light") :
+                           model.currentThemeCode === "DARK_FUSION" ? qsTrc("appshell/gettingstarted", "Dark") :
+                           qsTrc("appshell/gettingstarted", "System"))
+
+                if (model.isFollowSystemTheme) {
+                    desc += ". " + qsTrc("appshell/gettingstarted", "Following system theme")
+                }
+
+                if (model.highContrastEnabled) {
+                    desc += ". " + qsTrc("appshell/gettingstarted", "High contrast enabled")
+                } else {
+                    desc += ". " + qsTrc("appshell/gettingstarted", "Accent color selected")
+                }
+
+                return desc
+            }
         }
 
     }
