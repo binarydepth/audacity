@@ -20,14 +20,14 @@ static const std::string moduleName("projectscene");
 static const QString IS_VERTICAL_RULERS_VISIBLE("projectscene/verticalRulersVisible");
 static const QString IS_RMS_IN_WAVEFORM_VISIBLE("projectscene/rmsInWaveformVisible");
 static const QString IS_CLIPPING_IN_WAVEFORM_VISIBLE("projectscene/clippingInWaveformVisible");
+static const QString TIMELINE_RULER_MODE("projectscene/timelineRulerMode");
+static const QString EFFECTS_PANEL_VISIBILITY("projectscene/effectsPanelVisible");
+
 static const muse::Settings::Key MOUSE_ZOOM_PRECISION(moduleName, "projectscene/zoomPrecisionMouse");
 static const muse::Settings::Key CLIP_STYLE(moduleName, "projectscene/clipStyle");
 static const muse::Settings::Key STEREO_HEIGHTS_PREF(moduleName, "projectscene/asymmetricStereoHeights");
 static const muse::Settings::Key ASYMMETRIC_STEREO_HEIGHTS_WORKSPACES(moduleName, "projectscene/asymmetricStereoHeightsWorkspaces");
 static const muse::Settings::Key SELECTION_TIMECODE_FORMAT(moduleName, "projectscene/selectionTimecodeFormat");
-
-static const QString TIMELINE_RULER_MODE("projectscene/timelineRulerMode");
-static const QString EFFECTS_PANEL_VISIBILITY("projectscene/effectsPanelVisible");
 
 void ProjectSceneConfiguration::init()
 {
