@@ -19,7 +19,7 @@ static const std::string moduleName("projectscene");
 
 static const QString IS_VERTICAL_RULERS_VISIBLE("projectscene/verticalRulersVisible");
 static const QString IS_RMS_IN_WAVEFORM_VISIBLE("projectscene/rmsInWaveformVisible");
-static const muse::Settings::Key IS_CLIPPING_IN_WAVEFORM_VISIBLE(moduleName, "projectscene/clippingInWaveformVisible");
+static const QString IS_CLIPPING_IN_WAVEFORM_VISIBLE("projectscene/clippingInWaveformVisible");
 static const muse::Settings::Key MOUSE_ZOOM_PRECISION(moduleName, "projectscene/zoomPrecisionMouse");
 static const muse::Settings::Key CLIP_STYLE(moduleName, "projectscene/clipStyle");
 static const muse::Settings::Key STEREO_HEIGHTS_PREF(moduleName, "projectscene/asymmetricStereoHeights");
@@ -39,9 +39,8 @@ void ProjectSceneConfiguration::init()
         m_isRMSInWaveformVisibleChanged.send(uiConfiguration()->isVisible(IS_RMS_IN_WAVEFORM_VISIBLE));
     });
 
-    muse::settings()->setDefaultValue(IS_CLIPPING_IN_WAVEFORM_VISIBLE, muse::Val(false));
-    muse::settings()->valueChanged(IS_CLIPPING_IN_WAVEFORM_VISIBLE).onReceive(nullptr, [this](const muse::Val& val) {
-        m_isClippingInWaveformVisibleChanged.send(val.toBool());
+    uiConfiguration()->isVisibleChanged(IS_CLIPPING_IN_WAVEFORM_VISIBLE).onNotify(nullptr, [this](){
+        m_isClippingInWaveformVisibleChanged.send(uiConfiguration()->isVisible(IS_CLIPPING_IN_WAVEFORM_VISIBLE));
     });
 
     muse::settings()->setDefaultValue(MOUSE_ZOOM_PRECISION, muse::Val(6));
@@ -102,12 +101,12 @@ muse::async::Channel<bool> ProjectSceneConfiguration::isRMSInWaveformVisibleChan
 
 bool ProjectSceneConfiguration::isClippingInWaveformVisible() const
 {
-    return muse::settings()->value(IS_CLIPPING_IN_WAVEFORM_VISIBLE).toBool();
+    return uiConfiguration()->isVisible(IS_CLIPPING_IN_WAVEFORM_VISIBLE);
 }
 
 void ProjectSceneConfiguration::setClippingInWaveformVisible(bool visible)
 {
-    muse::settings()->setSharedValue(IS_CLIPPING_IN_WAVEFORM_VISIBLE, muse::Val(visible));
+    uiConfiguration()->setIsVisible(IS_CLIPPING_IN_WAVEFORM_VISIBLE, visible);
 }
 
 muse::async::Channel<bool> ProjectSceneConfiguration::isClippingInWaveformVisibleChanged() const
