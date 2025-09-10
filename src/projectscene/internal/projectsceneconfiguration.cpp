@@ -18,8 +18,11 @@ using namespace au::projectscene;
 static const std::string moduleName("projectscene");
 
 static const QString IS_VERTICAL_RULERS_VISIBLE("projectscene/verticalRulersVisible");
+static constexpr bool DEFAULT_VERTICAL_RULERS_VISIBILITY = false;
 static const QString IS_RMS_IN_WAVEFORM_VISIBLE("projectscene/rmsInWaveformVisible");
+static constexpr bool DEFAULT_RMS_IN_WAVEFORM_VISIBILITY = false;
 static const QString IS_CLIPPING_IN_WAVEFORM_VISIBLE("projectscene/clippingInWaveformVisible");
+static constexpr bool DEFAULT_CLIPPING_IN_WAVEFORM_VISIBILITY = false;
 static const QString TIMELINE_RULER_MODE("projectscene/timelineRulerMode");
 static const QString EFFECTS_PANEL_VISIBILITY("projectscene/effectsPanelVisible");
 
@@ -32,15 +35,15 @@ static const muse::Settings::Key SELECTION_TIMECODE_FORMAT(moduleName, "projects
 void ProjectSceneConfiguration::init()
 {
     uiConfiguration()->isVisibleChanged(IS_VERTICAL_RULERS_VISIBLE).onNotify(nullptr, [this](){
-        m_isVerticalRulersVisibleChanged.send(uiConfiguration()->isVisible(IS_VERTICAL_RULERS_VISIBLE));
+        m_isVerticalRulersVisibleChanged.send(isVerticalRulersVisible());
     });
 
     uiConfiguration()->isVisibleChanged(IS_RMS_IN_WAVEFORM_VISIBLE).onNotify(nullptr, [this](){
-        m_isRMSInWaveformVisibleChanged.send(uiConfiguration()->isVisible(IS_RMS_IN_WAVEFORM_VISIBLE));
+        m_isRMSInWaveformVisibleChanged.send(isRMSInWaveformVisible());
     });
 
     uiConfiguration()->isVisibleChanged(IS_CLIPPING_IN_WAVEFORM_VISIBLE).onNotify(nullptr, [this](){
-        m_isClippingInWaveformVisibleChanged.send(uiConfiguration()->isVisible(IS_CLIPPING_IN_WAVEFORM_VISIBLE));
+        m_isClippingInWaveformVisibleChanged.send(isClippingInWaveformVisible());
     });
 
     muse::settings()->setDefaultValue(MOUSE_ZOOM_PRECISION, muse::Val(6));
@@ -71,7 +74,7 @@ void ProjectSceneConfiguration::init()
 
 bool ProjectSceneConfiguration::isVerticalRulersVisible() const
 {
-    return uiConfiguration()->isVisible(IS_VERTICAL_RULERS_VISIBLE);
+    return uiConfiguration()->isVisible(IS_VERTICAL_RULERS_VISIBLE, DEFAULT_VERTICAL_RULERS_VISIBILITY);
 }
 
 void ProjectSceneConfiguration::setVerticalRulersVisible(bool visible)
@@ -86,7 +89,7 @@ muse::async::Channel<bool> ProjectSceneConfiguration::isVerticalRulersVisibleCha
 
 bool ProjectSceneConfiguration::isRMSInWaveformVisible() const
 {
-    return uiConfiguration()->isVisible(IS_RMS_IN_WAVEFORM_VISIBLE);
+    return uiConfiguration()->isVisible(IS_RMS_IN_WAVEFORM_VISIBLE, DEFAULT_RMS_IN_WAVEFORM_VISIBILITY);
 }
 
 void ProjectSceneConfiguration::setRMSInWaveformVisible(bool visible)
@@ -101,7 +104,7 @@ muse::async::Channel<bool> ProjectSceneConfiguration::isRMSInWaveformVisibleChan
 
 bool ProjectSceneConfiguration::isClippingInWaveformVisible() const
 {
-    return uiConfiguration()->isVisible(IS_CLIPPING_IN_WAVEFORM_VISIBLE);
+    return uiConfiguration()->isVisible(IS_CLIPPING_IN_WAVEFORM_VISIBLE, DEFAULT_CLIPPING_IN_WAVEFORM_VISIBILITY);
 }
 
 void ProjectSceneConfiguration::setClippingInWaveformVisible(bool visible)
