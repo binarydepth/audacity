@@ -18,7 +18,7 @@ using namespace au::projectscene;
 static const std::string moduleName("projectscene");
 
 static const QString IS_VERTICAL_RULERS_VISIBLE("projectscene/verticalRulersVisible");
-static const muse::Settings::Key IS_RMS_IN_WAVEFORM_VISIBLE(moduleName, "projectscene/rmsInWaveformVisible");
+static const QString IS_RMS_IN_WAVEFORM_VISIBLE("projectscene/rmsInWaveformVisible");
 static const muse::Settings::Key IS_CLIPPING_IN_WAVEFORM_VISIBLE(moduleName, "projectscene/clippingInWaveformVisible");
 static const muse::Settings::Key MOUSE_ZOOM_PRECISION(moduleName, "projectscene/zoomPrecisionMouse");
 static const muse::Settings::Key CLIP_STYLE(moduleName, "projectscene/clipStyle");
@@ -35,9 +35,8 @@ void ProjectSceneConfiguration::init()
         m_isVerticalRulersVisibleChanged.send(uiConfiguration()->isVisible(IS_VERTICAL_RULERS_VISIBLE));
     });
 
-    muse::settings()->setDefaultValue(IS_RMS_IN_WAVEFORM_VISIBLE, muse::Val(false));
-    muse::settings()->valueChanged(IS_RMS_IN_WAVEFORM_VISIBLE).onReceive(nullptr, [this](const muse::Val& val) {
-        m_isRMSInWaveformVisibleChanged.send(val.toBool());
+    uiConfiguration()->isVisibleChanged(IS_RMS_IN_WAVEFORM_VISIBLE).onNotify(nullptr, [this](){
+        m_isRMSInWaveformVisibleChanged.send(uiConfiguration()->isVisible(IS_RMS_IN_WAVEFORM_VISIBLE));
     });
 
     muse::settings()->setDefaultValue(IS_CLIPPING_IN_WAVEFORM_VISIBLE, muse::Val(false));
@@ -88,12 +87,12 @@ muse::async::Channel<bool> ProjectSceneConfiguration::isVerticalRulersVisibleCha
 
 bool ProjectSceneConfiguration::isRMSInWaveformVisible() const
 {
-    return muse::settings()->value(IS_RMS_IN_WAVEFORM_VISIBLE).toBool();
+    return uiConfiguration()->isVisible(IS_RMS_IN_WAVEFORM_VISIBLE);
 }
 
 void ProjectSceneConfiguration::setRMSInWaveformVisible(bool visible)
 {
-    muse::settings()->setSharedValue(IS_RMS_IN_WAVEFORM_VISIBLE, muse::Val(visible));
+    uiConfiguration()->setIsVisible(IS_RMS_IN_WAVEFORM_VISIBLE, visible);
 }
 
 muse::async::Channel<bool> ProjectSceneConfiguration::isRMSInWaveformVisibleChanged() const
