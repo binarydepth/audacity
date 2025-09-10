@@ -17,7 +17,7 @@ using namespace au::projectscene;
 
 static const std::string moduleName("projectscene");
 
-static const muse::Settings::Key IS_VERTICAL_RULERS_VISIBLE(moduleName, "projectscene/verticalRulersVisible");
+static const QString IS_VERTICAL_RULERS_VISIBLE("projectscene/verticalRulersVisible");
 static const muse::Settings::Key IS_RMS_IN_WAVEFORM_VISIBLE(moduleName, "projectscene/rmsInWaveformVisible");
 static const muse::Settings::Key IS_CLIPPING_IN_WAVEFORM_VISIBLE(moduleName, "projectscene/clippingInWaveformVisible");
 static const muse::Settings::Key MOUSE_ZOOM_PRECISION(moduleName, "projectscene/zoomPrecisionMouse");
@@ -31,9 +31,8 @@ static const QString EFFECTS_PANEL_VISIBILITY("projectscene/effectsPanelVisible"
 
 void ProjectSceneConfiguration::init()
 {
-    muse::settings()->setDefaultValue(IS_VERTICAL_RULERS_VISIBLE, muse::Val(false));
-    muse::settings()->valueChanged(IS_VERTICAL_RULERS_VISIBLE).onReceive(nullptr, [this](const muse::Val& val) {
-        m_isVerticalRulersVisibleChanged.send(val.toBool());
+    uiConfiguration()->isVisibleChanged(IS_VERTICAL_RULERS_VISIBLE).onNotify(nullptr, [this](){
+        m_isVerticalRulersVisibleChanged.send(uiConfiguration()->isVisible(IS_VERTICAL_RULERS_VISIBLE));
     });
 
     muse::settings()->setDefaultValue(IS_RMS_IN_WAVEFORM_VISIBLE, muse::Val(false));
@@ -74,12 +73,12 @@ void ProjectSceneConfiguration::init()
 
 bool ProjectSceneConfiguration::isVerticalRulersVisible() const
 {
-    return muse::settings()->value(IS_VERTICAL_RULERS_VISIBLE).toBool();
+    return uiConfiguration()->isVisible(IS_VERTICAL_RULERS_VISIBLE);
 }
 
 void ProjectSceneConfiguration::setVerticalRulersVisible(bool visible)
 {
-    muse::settings()->setSharedValue(IS_VERTICAL_RULERS_VISIBLE, muse::Val(visible));
+    uiConfiguration()->setIsVisible(IS_VERTICAL_RULERS_VISIBLE, visible);
 }
 
 muse::async::Channel<bool> ProjectSceneConfiguration::isVerticalRulersVisibleChanged() const
