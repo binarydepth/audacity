@@ -39,7 +39,7 @@ Item {
     property real titleContentSpacing: 24
 
     property string extraButtonTitle: ""
-    signal extraButtonClicked()
+    signal extraButtonClicked
 
     anchors.fill: parent
 

@@ -69,12 +69,10 @@ DoublePage {
                             navigation.column: 0
                             navigation.row: index
                             navigation.accessible.name: modelData.title
-                            navigation.accessible.description: modelData.description + ". " +
-                                (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
-                                 qsTrc("appshell/gettingstarted", "Click to select this workspace"))
+                            navigation.accessible.description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this workspace"))
 
                             onToggled: {
-                                workspaceModel.selectWorkspace(modelData.code);
+                                workspaceModel.selectWorkspace(modelData.code)
                             }
                         }
                         Column {
@@ -99,7 +97,7 @@ DoublePage {
                         anchors.fill: parent
 
                         onClicked: {
-                            workspaceModel.selectWorkspace(modelData.code);
+                            workspaceModel.selectWorkspace(modelData.code)
                         }
                     }
 
@@ -109,11 +107,8 @@ DoublePage {
                         visualItem: parent
                         role: MUAccessible.ListItem
                         name: modelData.title
-                        description: modelData.description + ". " +
-                            (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
-                             qsTrc("appshell/gettingstarted", "Available workspace"))
+                        description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available workspace"))
                     }
-
                 }
             }
         }
@@ -166,7 +161,7 @@ DoublePage {
     }
 
     Component.onCompleted: {
-        workspaceModel.load();
+        workspaceModel.load()
     }
 
     SeparatorLine {

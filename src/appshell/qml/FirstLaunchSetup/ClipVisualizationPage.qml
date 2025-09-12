@@ -69,12 +69,10 @@ DoublePage {
                             navigation.column: 0
                             navigation.row: index
                             navigation.accessible.name: modelData.title
-                            navigation.accessible.description: modelData.description + ". " +
-                                (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
-                                 qsTrc("appshell/gettingstarted", "Click to select this style"))
+                            navigation.accessible.description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this style"))
 
                             onToggled: {
-                                clipStyleModel.selectClipStyle(modelData.style);
+                                clipStyleModel.selectClipStyle(modelData.style)
                             }
                         }
                         Column {
@@ -95,7 +93,7 @@ DoublePage {
                         anchors.fill: parent
 
                         onClicked: {
-                            clipStyleModel.selectClipStyle(modelData.style);
+                            clipStyleModel.selectClipStyle(modelData.style)
                         }
                     }
 
@@ -105,9 +103,7 @@ DoublePage {
                         visualItem: parent
                         role: MUAccessible.ListItem
                         name: modelData.title
-                        description: modelData.description + ". " +
-                            (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") :
-                             qsTrc("appshell/gettingstarted", "Available option"))
+                        description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available option"))
                     }
                 }
             }
@@ -123,9 +119,9 @@ DoublePage {
 
         onStatusChanged: {
             if (status === Image.Error) {
-                console.log("Failed to load clip image:", source);
+                console.log("Failed to load clip image:", source)
             } else if (status === Image.Ready) {
-                console.log("Successfully loaded clip image:", source);
+                console.log("Successfully loaded clip image:", source)
             }
         }
 
@@ -140,7 +136,7 @@ DoublePage {
     }
 
     Component.onCompleted: {
-        clipStyleModel.load();
+        clipStyleModel.load()
     }
 
     SeparatorLine {

@@ -173,8 +173,8 @@ StyledDialogView {
                 }
 
                 onClicked: {
-                    if (!enabled) return
-
+                    if (!enabled)
+                        return
                     if (Boolean(buttons.lastPressedButton)) {
                         buttons.lastPressedButton.navigation.accessible.ignored = true
                     }
@@ -215,8 +215,7 @@ StyledDialogView {
                 Layout.preferredHeight: 28
                 Layout.preferredWidth: 80
 
-                text: model.canFinish ? qsTrc("appshell/gettingstarted", "Done")
-                                      : qsTrc("global", "Next")
+                text: model.canFinish ? qsTrc("appshell/gettingstarted", "Done") : qsTrc("global", "Next")
                 accentButton: !extraButton.visible
 
                 navigation.name: "NextButton"

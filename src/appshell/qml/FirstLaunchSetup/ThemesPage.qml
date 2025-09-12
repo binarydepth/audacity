@@ -81,7 +81,7 @@ Page {
             navigationPanel.accessible.name: qsTrc("appshell/gettingstarted", "Theme selection")
             navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose between light, dark, or system theme")
 
-            onThemeChangeRequested: function(newThemeCode) {
+            onThemeChangeRequested: function (newThemeCode) {
                 model.currentThemeCode = newThemeCode
             }
         }
@@ -187,10 +187,7 @@ Page {
             role: MUAccessible.Group
             name: qsTrc("appshell/gettingstarted", "Theme configuration")
             description: {
-                var desc = qsTrc("appshell/gettingstarted", "Current theme: ") +
-                          (model.currentThemeCode === "LIGHT_FUSION" ? qsTrc("appshell/gettingstarted", "Light") :
-                           model.currentThemeCode === "DARK_FUSION" ? qsTrc("appshell/gettingstarted", "Dark") :
-                           qsTrc("appshell/gettingstarted", "System"))
+                var desc = qsTrc("appshell/gettingstarted", "Current theme: ") + (model.currentThemeCode === "LIGHT_FUSION" ? qsTrc("appshell/gettingstarted", "Light") : model.currentThemeCode === "DARK_FUSION" ? qsTrc("appshell/gettingstarted", "Dark") : qsTrc("appshell/gettingstarted", "System"))
 
                 if (model.isFollowSystemTheme) {
                     desc += ". " + qsTrc("appshell/gettingstarted", "Following system theme")
@@ -205,6 +202,5 @@ Page {
                 return desc
             }
         }
-
     }
 }
