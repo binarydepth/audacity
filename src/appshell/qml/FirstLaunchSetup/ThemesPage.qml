@@ -33,15 +33,6 @@ Page {
 
     title: qsTrc("appshell/gettingstarted", "Select a theme")
 
-    ThemesPageModel {
-        id: model
-    }
-
-    Component.onCompleted: {
-        model.load()
-    }
-
-    // Shared navigation panel for checkboxes
     property NavigationPanel checkboxesPanel: NavigationPanel {
         name: "CheckboxesPanel"
         enabled: root.enabled && root.visible
@@ -50,6 +41,14 @@ Page {
         direction: NavigationPanel.Vertical
         accessible.name: qsTrc("appshell/gettingstarted", "Theme options")
         accessible.description: qsTrc("appshell/gettingstarted", "Additional theme configuration options")
+    }
+
+    ThemesPageModel {
+        id: model
+    }
+
+    Component.onCompleted: {
+        model.load()
     }
 
     // Page-level accessibility information
@@ -67,15 +66,16 @@ Page {
     ColumnLayout {
         anchors.top: parent.top
         anchors.horizontalCenter: parent.horizontalCenter
+
         spacing: 24
 
         ThemeSamplesList {
             id: themeSamplesList
+
             Layout.alignment: Qt.AlignCenter
 
             themes: model.highContrastEnabled ? model.highContrastThemes : model.generalThemes
             currentThemeCode: model.currentThemeCode
-
             spacing: 24
 
             navigationPanel.section: root.navigationSection
@@ -91,17 +91,16 @@ Page {
         Column {
             id: checkboxesColumn
 
-            height: childrenRect.height
             Layout.alignment: Qt.AlignCenter
 
+            height: childrenRect.height
             spacing: 16
 
             CheckBox {
-                enabled: model.isFollowSystemThemeAvailable
                 Layout.alignment: Qt.AlignCenter
 
+                enabled: model.isFollowSystemThemeAvailable
                 text: qsTrc("appshell/gettingstarted", "Follow system theme")
-
                 checked: model.isFollowSystemTheme
 
                 navigation.name: "FollowSystemThemeBox"

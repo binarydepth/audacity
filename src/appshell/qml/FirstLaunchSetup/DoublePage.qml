@@ -11,30 +11,15 @@ import Audacity.AppShell 1.0
 Item {
     id: root
 
-    // Properties similar to Page
+    anchors.fill: parent
+
     property alias title: titleLabel.text
     property NavigationSection navigationSection: null
     property int navigationStartRow: 2
     property string activeButtonTitle: ""
-
-    // Properties for the left side content
     property alias leftContent: leftContentItem.data
-
-    // Properties for the right side content
     property alias rightContent: rightContentItem.data
-
-    // Optional properties for customization
     property bool showRightContent: true
-
-    anchors.fill: parent
-
-    function readInfo() {
-        accessibleInfo.readInfo()
-    }
-
-    function resetFocus() {
-        accessibleInfo.resetFocus()
-    }
 
     property NavigationPanel navigationPanel: NavigationPanel {
         name: "ContentPanel"
@@ -44,6 +29,14 @@ Item {
         direction: NavigationPanel.Vertical
     }
 
+    function readInfo() {
+        accessibleInfo.readInfo()
+    }
+
+    function resetFocus() {
+        accessibleInfo.resetFocus()
+    }
+
     AccessibleItem {
         id: accessibleInfo
 
@@ -51,7 +44,7 @@ Item {
         visualItem: root
         role: MUAccessible.Button
 
-        name: root.title + ". " + root.activeButtonTitle
+        name: qsTrc("appshell/gettingstarted", "%1. %2").arg(root.title).arg(root.activeButtonTitle)
 
         function readInfo() {
             accessibleInfo.ignored = false
@@ -69,6 +62,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+
         spacing: 0
 
         // Left side - Controls
@@ -80,18 +74,22 @@ Item {
             Column {
                 anchors.fill: parent
                 anchors.margins: 24
+
                 spacing: 24
 
                 StyledTextLabel {
                     id: titleLabel
-                    horizontalAlignment: Qt.AlignLeft
+
                     width: parent.width
+
+                    horizontalAlignment: Qt.AlignLeft
                     font: ui.theme.largeBodyBoldFont
                     wrapMode: Text.Wrap
                 }
 
                 Item {
                     id: leftContentItem
+
                     width: parent.width
                     height: parent.height - titleLabel.height - parent.spacing
                 }
@@ -101,8 +99,10 @@ Item {
         // Right side - Preview/Image
         Item {
             id: rightContentItem
+
             Layout.fillWidth: root.showRightContent
             Layout.fillHeight: true
+
             visible: root.showRightContent
         }
     }

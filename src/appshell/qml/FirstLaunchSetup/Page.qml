@@ -28,28 +28,15 @@ import Audacity.AppShell 1.0
 Item {
     id: root
 
-    property alias title: titleLabel.text
+    anchors.fill: parent
 
+    property alias title: titleLabel.text
     property NavigationSection navigationSection: null
     property int navigationStartRow: 2
     property string activeButtonTitle: ""
-
     default property alias content: contentItem.data
-
     property real titleContentSpacing: 24
-
     property string extraButtonTitle: ""
-    signal extraButtonClicked
-
-    anchors.fill: parent
-
-    function readInfo() {
-        accessibleInfo.readInfo()
-    }
-
-    function resetFocus() {
-        accessibleInfo.resetFocus()
-    }
 
     property NavigationPanel navigationPanel: NavigationPanel {
         name: "ContentPanel"
@@ -57,6 +44,16 @@ Item {
         section: root.navigationSection
         order: root.navigationStartRow
         direction: NavigationPanel.Vertical
+    }
+
+    signal extraButtonClicked
+
+    function readInfo() {
+        accessibleInfo.readInfo()
+    }
+
+    function resetFocus() {
+        accessibleInfo.resetFocus()
     }
 
     AccessibleItem {
@@ -82,8 +79,8 @@ Item {
     Column {
         id: header
 
-        anchors.topMargin: 39
         anchors.top: parent.top
+        anchors.topMargin: 39
         anchors.left: parent.left
         anchors.right: parent.right
 
@@ -93,6 +90,7 @@ Item {
             id: titleLabel
 
             anchors.horizontalCenter: parent.horizontalCenter
+
             width: parent.width
 
             font: ui.theme.largeBodyBoldFont

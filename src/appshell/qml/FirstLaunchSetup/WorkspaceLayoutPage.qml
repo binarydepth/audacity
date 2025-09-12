@@ -10,8 +10,8 @@ import Audacity.AppShell 1.0
 
 DoublePage {
     id: root
-    showRightContent: false
 
+    showRightContent: false
     title: workspaceModel.pageTitle
 
     navigationPanel.direction: NavigationPanel.Vertical

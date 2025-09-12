@@ -30,14 +30,14 @@ StyledDialogView {
     id: root
 
     objectName: "FirstLaunchSetupDialog"
-    modal: true
-    frameless: true
-    closeOnEscape: false
-
     title: qsTrc("appshell/gettingstarted", "Getting started")
 
     contentWidth: 560
     contentHeight: 442
+
+    modal: true
+    frameless: true
+    closeOnEscape: false
 
     margins: 0
 
