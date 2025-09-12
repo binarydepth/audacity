@@ -143,14 +143,6 @@ DoublePage {
         smooth: false
         source: workspaceModel.currentImagePath
 
-        onStatusChanged: {
-            if (status === Image.Error) {
-                console.log("Failed to load workspace image:", source)
-            } else if (status === Image.Ready) {
-                console.log("Successfully loaded workspace image:", source)
-            }
-        }
-
         // Accessibility for the workspace preview image
         AccessibleItem {
             accessibleParent: pageAccessibleInfo

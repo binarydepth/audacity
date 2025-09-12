@@ -117,14 +117,6 @@ DoublePage {
         smooth: true
         source: clipStyleModel.currentImagePath
 
-        onStatusChanged: {
-            if (status === Image.Error) {
-                console.log("Failed to load clip image:", source)
-            } else if (status === Image.Ready) {
-                console.log("Successfully loaded clip image:", source)
-            }
-        }
-
         // Accessibility for the preview image
         AccessibleItem {
             accessibleParent: pageAccessibleInfo
