@@ -10,20 +10,20 @@
 
 namespace au::appshell {
 struct ClipStyleInfo {
-    int style;
-    QString title;
-    QString description;
-    QString imagePath;
-    bool selected = false;
+    int m_style;
+    QString m_title;
+    QString m_description;
+    QString m_imagePath;
+    bool m_selected = false;
 
-    QVariantMap toMap() const
+    [[nodiscard]] QVariantMap toMap() const
     {
         return {
-            { "style", style },
-            { "title", title },
-            { "description", description },
-            { "imagePath", imagePath },
-            { "selected", selected }
+            { "style", m_style },
+            { "title", m_title },
+            { "description", m_description },
+            { "imagePath", m_imagePath },
+            { "selected", m_selected }
         };
     }
 };
@@ -32,7 +32,7 @@ class ClipVisualizationPageModel : public QObject, public muse::async::Asyncable
 {
     Q_OBJECT
 
-    muse::Inject<projectscene::IProjectSceneConfiguration> projectSceneConfiguration;
+    muse::Inject<projectscene::IProjectSceneConfiguration> m_projectSceneConfiguration;
 
     Q_PROPERTY(QVariantList clipStyles READ clipStyles NOTIFY clipStylesChanged)
     Q_PROPERTY(int currentClipStyle READ currentClipStyle NOTIFY currentClipStyleChanged)

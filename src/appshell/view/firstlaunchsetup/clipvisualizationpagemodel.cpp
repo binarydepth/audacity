@@ -10,7 +10,7 @@ ClipVisualizationPageModel::ClipVisualizationPageModel(QObject* parent)
     : QObject(parent)
 {
     // Listen to clip style changes from the configuration
-    projectSceneConfiguration()->clipStyleChanged().onReceive(this, [this](const ClipStyles::Style& style) {
+    m_projectSceneConfiguration()->clipStyleChanged().onReceive(this, [this](const ClipStyles::Style& style) {
         Q_UNUSED(style);
         updateClipStyles();
     });
@@ -22,19 +22,19 @@ void ClipVisualizationPageModel::load()
     m_clipStyles.clear();
 
     ClipStyleInfo colorful;
-    colorful.style = static_cast<int>(ClipStyles::Style::COLORFUL);
-    colorful.title = qtrc("appshell/gettingstarted", "Colorful");
-    colorful.description = qtrc("appshell/gettingstarted", "Each track gets a new color");
-    colorful.imagePath = "resources/ClipVisuals_ColorfulClips.png";
-    colorful.selected = false;
+    colorful.m_style = static_cast<int>(ClipStyles::Style::COLORFUL);
+    colorful.m_title = qtrc("appshell/gettingstarted", "Colorful");
+    colorful.m_description = qtrc("appshell/gettingstarted", "Each track gets a new color");
+    colorful.m_imagePath = "resources/ClipVisuals_ColorfulClips.png";
+    colorful.m_selected = false;
     m_clipStyles.append(colorful);
 
     ClipStyleInfo classic;
-    classic.style = static_cast<int>(ClipStyles::Style::CLASSIC);
-    classic.title = qtrc("appshell/gettingstarted", "Classic");
-    classic.description = qtrc("appshell/gettingstarted", "The clips you know and love");
-    classic.imagePath = "resources/ClipVisuals_ClassicClips.png";
-    classic.selected = false;
+    classic.m_style = static_cast<int>(ClipStyles::Style::CLASSIC);
+    classic.m_title = qtrc("appshell/gettingstarted", "Classic");
+    classic.m_description = qtrc("appshell/gettingstarted", "The clips you know and love");
+    classic.m_imagePath = "resources/ClipVisuals_ClassicClips.png";
+    classic.m_selected = false;
     m_clipStyles.append(classic);
 
     updateClipStyles();
@@ -42,7 +42,7 @@ void ClipVisualizationPageModel::load()
 
 void ClipVisualizationPageModel::selectClipStyle(int style)
 {
-    ClipStyles::Style currentStyle = projectSceneConfiguration()->clipStyle();
+    ClipStyles::Style currentStyle = m_projectSceneConfiguration()->clipStyle();
     ClipStyles::Style newStyle = static_cast<ClipStyles::Style>(style);
 
     if (currentStyle == newStyle) {
@@ -50,7 +50,7 @@ void ClipVisualizationPageModel::selectClipStyle(int style)
     }
 
     // Save the clip style preference to configuration
-    projectSceneConfiguration()->setClipStyle(newStyle);
+    m_projectSceneConfiguration()->setClipStyle(newStyle);
 
     // updateClipStyles() will be called automatically via the clipStyleChanged signal
 }
@@ -66,15 +66,15 @@ QVariantList ClipVisualizationPageModel::clipStyles() const
 
 int ClipVisualizationPageModel::currentClipStyle() const
 {
-    return static_cast<int>(projectSceneConfiguration()->clipStyle());
+    return static_cast<int>(m_projectSceneConfiguration()->clipStyle());
 }
 
 QString ClipVisualizationPageModel::currentImagePath() const
 {
     const int currentStyleValue = currentClipStyle();
     for (const ClipStyleInfo& style : m_clipStyles) {
-        if (style.style == currentStyleValue) {
-            return style.imagePath;
+        if (style.m_style == currentStyleValue) {
+            return style.m_imagePath;
         }
     }
     return ""; // Fallback
@@ -89,7 +89,7 @@ void ClipVisualizationPageModel::updateClipStyles()
 {
     const int currentStyleValue = currentClipStyle();
     for (ClipStyleInfo& style : m_clipStyles) {
-        style.selected = (style.style == currentStyleValue);
+        style.m_selected = (style.m_style == currentStyleValue);
     }
     emit clipStylesChanged();
     emit currentClipStyleChanged();

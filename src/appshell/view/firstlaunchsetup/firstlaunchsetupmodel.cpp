@@ -55,7 +55,7 @@ int FirstLaunchSetupModel::currentPageIndex() const
 QVariantMap FirstLaunchSetupModel::Page::toMap() const
 {
     return {
-        { "url", url },
+        { "url", m_url },
     };
 }
 
@@ -93,7 +93,7 @@ void FirstLaunchSetupModel::setCurrentPageIndex(int index)
     emit currentPageChanged();
 
     async::Async::call(this, [this]() {
-        interactive()->open(m_pages.at(m_currentPageIndex).backgroundUri);
+        interactive()->open(m_pages.at(m_currentPageIndex).m_backgroundUri);
     });
 }
 

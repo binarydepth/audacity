@@ -2,7 +2,6 @@
 #define AU_APPSHELL_WORKSPACELAYOUTPAGEMODEL_H
 
 #include <QObject>
-#include <QVariantList>
 
 #include "async/asyncable.h"
 #include "modularity/ioc.h"
@@ -15,20 +14,20 @@
 
 namespace au::appshell {
 struct WorkspaceInfo {
-    QString code;
-    QString title;
-    QString description;
-    QString imagePath;
-    bool selected = false;
+    QString m_code;
+    QString m_title;
+    QString m_description;
+    QString m_imagePath;
+    bool m_selected = false;
 
-    QVariantMap toMap() const
+    [[nodiscard]] QVariantMap toMap() const
     {
         return {
-            { "code", code },
-            { "title", title },
-            { "description", description },
-            { "imagePath", imagePath },
-            { "selected", selected }
+            { "code", m_code },
+            { "title", m_title },
+            { "description", m_description },
+            { "imagePath", m_imagePath },
+            { "selected", m_selected }
         };
     }
 };
@@ -42,10 +41,10 @@ class WorkspaceLayoutPageModel : public QObject, public muse::async::Asyncable
     Q_PROPERTY(QString currentImagePath READ currentImagePath NOTIFY workspacesChanged)
     Q_PROPERTY(QString pageTitle READ pageTitle CONSTANT)
 
-    muse::Inject<muse::ui::IUiConfiguration> uiConfiguration;
+    muse::Inject<muse::ui::IUiConfiguration> m_uiConfiguration;
 
 #ifdef MUSE_MODULE_WORKSPACE
-    muse::Inject<muse::workspace::IWorkspaceManager> workspaceManager;
+    muse::Inject<muse::workspace::IWorkspaceManager> m_workspaceManager;
 #endif
 
 public:
