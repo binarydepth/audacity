@@ -97,23 +97,6 @@ void FirstLaunchSetupModel::setCurrentPageIndex(int index)
     });
 }
 
-bool FirstLaunchSetupModel::askAboutClosingEarly()
-{
-    IInteractive::ButtonDatas buttons {
-        IInteractive::ButtonData(IInteractive::Button::Cancel, trc("global", "Cancel")),
-        IInteractive::ButtonData(IInteractive::Button::Continue, trc("appshell/gettingstarted", "Keep going"), /*accentButton*/ true)
-    };
-
-    IInteractive::Result result
-        = interactive()->warningSync(trc("appshell/gettingstarted", "Are you sure you want to cancel?"),
-                                     trc("appshell/gettingstarted", "If you choose to cancel, then be sure to check out "
-                                                                    "our free Muse Sounds playback library on musescore.org."),
-                                     buttons,
-                                     int(IInteractive::Button::Cancel));
-
-    return result.standardButton() == IInteractive::Button::Cancel;
-}
-
 void FirstLaunchSetupModel::finish()
 {
     configuration()->setHasCompletedFirstLaunchSetup(true);

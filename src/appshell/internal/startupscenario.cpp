@@ -127,6 +127,9 @@ void StartupScenario::runAfterSplashScreen()
     if (/*isMainInstance && */ sessionsManager()->hasProjectsForRestore()) {
         modeType = StartupModeType::Recovery;
     }
+    if (!configuration()->hasCompletedFirstLaunchSetup()) {
+        modeType = StartupModeType::FirstLaunch;
+    }
 
     muse::Uri startupUri = startupPageUri(modeType);
 
@@ -190,12 +193,10 @@ void StartupScenario::onStartupPageOpened(StartupModeType modeType)
                            : ProjectFile(configuration()->startupScorePath());
         openScore(file);
     } break;
-    }
-
-    if (!configuration()->hasCompletedFirstLaunchSetup()) {
+    case StartupModeType::FirstLaunch: {
         interactive()->open(FIRST_LAUNCH_SETUP_URI);
-        interactive()->open(HOME_URI.toString() + "?section=projects");
         dispatcher()->dispatch("file-new");
+    } break;
     }
 }
 
@@ -208,6 +209,7 @@ muse::Uri StartupScenario::startupPageUri(StartupModeType modeType) const
         return HOME_URI;
     case StartupModeType::StartWithScore:
     case StartupModeType::ContinueLastSession:
+    case StartupModeType::FirstLaunch:
         return PROJECT_URI;
     }
 
