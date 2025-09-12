@@ -123,7 +123,7 @@ Page {
                 navigation.panel: root.checkboxesPanel
                 navigation.row: 1
                 navigation.column: 0
-                navigation.accessible.description: qsTrc("appshell/gettingstarted", "Enable high contrast mode for better visibility. ") + highContrastPreferencesHintLabel.text
+                navigation.accessible.description: qsTrc("appshell/gettingstarted", "Enable high contrast mode for better visibility. %1").arg(highContrastPreferencesHintLabel.text)
 
                 onClicked: {
                     model.highContrastEnabled = !checked
@@ -187,19 +187,20 @@ Page {
             role: MUAccessible.Group
             name: qsTrc("appshell/gettingstarted", "Theme configuration")
             description: {
-                var desc = qsTrc("appshell/gettingstarted", "Current theme: ") + (model.currentThemeCode === "LIGHT_FUSION" ? qsTrc("appshell/gettingstarted", "Light") : model.currentThemeCode === "DARK_FUSION" ? qsTrc("appshell/gettingstarted", "Dark") : qsTrc("appshell/gettingstarted", "System"))
+                var themeName = model.currentThemeCode === "LIGHT_FUSION" ? qsTrc("appshell/gettingstarted", "Light") : model.currentThemeCode === "DARK_FUSION" ? qsTrc("appshell/gettingstarted", "Dark") : qsTrc("appshell/gettingstarted", "System")
+                var baseDesc = qsTrc("appshell/gettingstarted", "Current theme: %1").arg(themeName)
 
                 if (model.isFollowSystemTheme) {
-                    desc += ". " + qsTrc("appshell/gettingstarted", "Following system theme")
+                    baseDesc = qsTrc("appshell/gettingstarted", "%1. Following system theme").arg(baseDesc)
                 }
 
                 if (model.highContrastEnabled) {
-                    desc += ". " + qsTrc("appshell/gettingstarted", "High contrast enabled")
+                    baseDesc = qsTrc("appshell/gettingstarted", "%1. High contrast enabled").arg(baseDesc)
                 } else {
-                    desc += ". " + qsTrc("appshell/gettingstarted", "Accent color selected")
+                    baseDesc = qsTrc("appshell/gettingstarted", "%1. Accent color selected").arg(baseDesc)
                 }
 
-                return desc
+                return baseDesc
             }
         }
     }

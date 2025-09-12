@@ -65,7 +65,7 @@ Item {
         accessibleParent: root.navigationPanel.accessible
         visualItem: root
         role: MUAccessible.Button
-        name: root.title + ". " + root.activeButtonTitle
+        name: qsTrc("appshell/gettingstarted", "%1. %2").arg(root.title).arg(root.activeButtonTitle)
 
         function readInfo() {
             accessibleInfo.ignored = false

@@ -69,7 +69,7 @@ DoublePage {
                             navigation.column: 0
                             navigation.row: index
                             navigation.accessible.name: modelData.title
-                            navigation.accessible.description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this workspace"))
+                            navigation.accessible.description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this workspace"))
 
                             onToggled: {
                                 workspaceModel.selectWorkspace(modelData.code)
@@ -107,7 +107,7 @@ DoublePage {
                         visualItem: parent
                         role: MUAccessible.ListItem
                         name: modelData.title
-                        description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available workspace"))
+                        description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available workspace"))
                     }
                 }
             }
@@ -127,6 +127,7 @@ DoublePage {
                 accessibleParent: pageAccessibleInfo
                 visualItem: infoTextLabel
                 role: MUAccessible.StaticText
+
                 name: qsTrc("appshell/gettingstarted", "Additional information")
                 description: infoTextLabel.text
             }
@@ -148,6 +149,7 @@ DoublePage {
             accessibleParent: pageAccessibleInfo
             visualItem: parent
             role: MUAccessible.Information
+
             name: qsTrc("appshell/gettingstarted", "Workspace layout preview")
             description: qsTrc("appshell/gettingstarted", "Preview of the selected workspace layout showing the arrangement of interface elements")
         }

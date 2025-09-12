@@ -69,7 +69,7 @@ DoublePage {
                             navigation.column: 0
                             navigation.row: index
                             navigation.accessible.name: modelData.title
-                            navigation.accessible.description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this style"))
+                            navigation.accessible.description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this style"))
 
                             onToggled: {
                                 clipStyleModel.selectClipStyle(modelData.style)
@@ -103,7 +103,7 @@ DoublePage {
                         visualItem: parent
                         role: MUAccessible.ListItem
                         name: modelData.title
-                        description: modelData.description + ". " + (modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available option"))
+                        description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available option"))
                     }
                 }
             }
