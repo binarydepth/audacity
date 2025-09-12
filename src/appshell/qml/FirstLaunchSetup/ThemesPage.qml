@@ -90,7 +90,7 @@ Page {
             id: checkboxesColumn
 
             height: childrenRect.height
-            anchors.horizontalCenter: parent.horizontalCenter
+            Layout.alignment: Qt.AlignCenter
 
             spacing: 16
 
