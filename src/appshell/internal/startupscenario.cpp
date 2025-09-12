@@ -194,8 +194,8 @@ void StartupScenario::onStartupPageOpened(StartupModeType modeType)
         openScore(file);
     } break;
     case StartupModeType::FirstLaunch: {
-        interactive()->open(FIRST_LAUNCH_SETUP_URI);
         dispatcher()->dispatch("file-new");
+        interactive()->open(FIRST_LAUNCH_SETUP_URI);
     } break;
     }
 }

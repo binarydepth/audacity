@@ -60,8 +60,6 @@ StyledDialogView {
 
         StyledTextLabel {
             Layout.preferredHeight: 27 // 28 - 1 for the SeparatorLine
-            // Layout.topMargin: 6
-            // Layout.bottomMargin: 6
             Layout.leftMargin: 8
             Layout.alignment: Qt.AlignLeft
             text: title

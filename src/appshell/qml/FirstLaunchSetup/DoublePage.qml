@@ -50,6 +50,7 @@ Item {
         accessibleParent: root.navigationPanel.accessible
         visualItem: root
         role: MUAccessible.Button
+
         name: root.title + ". " + root.activeButtonTitle
 
         function readInfo() {
@@ -78,10 +79,7 @@ Item {
 
             Column {
                 anchors.fill: parent
-                anchors.topMargin: 24
-                anchors.leftMargin: 24
-                anchors.rightMargin: 24
-                anchors.bottomMargin: 24
+                anchors.margins: 24
                 spacing: 24
 
                 StyledTextLabel {

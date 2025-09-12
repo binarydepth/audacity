@@ -21,9 +21,11 @@ DoublePage {
     // Page-level accessibility information
     AccessibleItem {
         id: pageAccessibleInfo
+
         accessibleParent: root.navigationSection.accessible
         visualItem: root
         role: MUAccessible.Panel
+
         name: root.title
         description: qsTrc("appshell/gettingstarted", "Select your preferred clip visualization style. Preview is shown on the right.")
     }
@@ -102,6 +104,7 @@ DoublePage {
                         accessibleParent: pageAccessibleInfo
                         visualItem: parent
                         role: MUAccessible.ListItem
+
                         name: modelData.title
                         description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available option"))
                     }
@@ -122,6 +125,7 @@ DoublePage {
             accessibleParent: pageAccessibleInfo
             visualItem: parent
             role: MUAccessible.Information
+
             name: qsTrc("appshell/gettingstarted", "Clip visualization preview")
             description: qsTrc("appshell/gettingstarted", "Preview of how audio clips will appear with the selected visualization style")
         }

@@ -21,9 +21,11 @@ DoublePage {
     // Page-level accessibility information
     AccessibleItem {
         id: pageAccessibleInfo
+
         accessibleParent: root.navigationSection.accessible
         visualItem: root
         role: MUAccessible.Panel
+
         name: root.title
         description: qsTrc("appshell/gettingstarted", "Select a workspace layout that suits your workflow. You can change this later.")
     }
@@ -88,7 +90,6 @@ DoublePage {
                                 font: ui.theme.bodyFont
                                 horizontalAlignment: Text.AlignLeft
                                 text: modelData.description
-                                // width: 172 // hardcoded width to fit the text for now
                                 wrapMode: Text.WordWrap
                             }
                         }
@@ -106,6 +107,7 @@ DoublePage {
                         accessibleParent: pageAccessibleInfo
                         visualItem: parent
                         role: MUAccessible.ListItem
+
                         name: modelData.title
                         description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available workspace"))
                     }

@@ -55,9 +55,11 @@ Page {
     // Page-level accessibility information
     AccessibleItem {
         id: pageAccessibleInfo
+
         accessibleParent: root.navigationSection.accessible
         visualItem: root
         role: MUAccessible.Panel
+
         name: root.title
         description: qsTrc("appshell/gettingstarted", "Choose your preferred theme, follow system theme option, and accent color")
     }
@@ -182,12 +184,14 @@ Page {
         // Accessibility group for the entire page content
         AccessibleItem {
             id: contentAccessibleGroup
+
             accessibleParent: pageAccessibleInfo
             visualItem: root
             role: MUAccessible.Group
+
             name: qsTrc("appshell/gettingstarted", "Theme configuration")
             description: {
-                var themeName = model.currentThemeCode === "LIGHT_FUSION" ? qsTrc("appshell/gettingstarted", "Light") : model.currentThemeCode === "DARK_FUSION" ? qsTrc("appshell/gettingstarted", "Dark") : qsTrc("appshell/gettingstarted", "System")
+                var themeName = model.currentThemeCode === "light" ? qsTrc("appshell/gettingstarted", "Light") : model.currentThemeCode === "dark" ? qsTrc("appshell/gettingstarted", "Dark") : qsTrc("appshell/gettingstarted", "System")
                 var baseDesc = qsTrc("appshell/gettingstarted", "Current theme: %1").arg(themeName)
 
                 if (model.isFollowSystemTheme) {
