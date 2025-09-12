@@ -115,6 +115,7 @@ DoublePage {
 
         // Additional info text
         StyledTextLabel {
+            id: infoTextLabel
             font: ui.theme.bodyFont
             horizontalAlignment: Text.AlignLeft
             text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
@@ -124,10 +125,10 @@ DoublePage {
             // Accessibility for the info text
             AccessibleItem {
                 accessibleParent: pageAccessibleInfo
-                visualItem: parent
+                visualItem: infoTextLabel
                 role: MUAccessible.StaticText
                 name: qsTrc("appshell/gettingstarted", "Additional information")
-                description: parent.text
+                description: infoTextLabel.text
             }
         }
     }
