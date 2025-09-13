@@ -85,6 +85,58 @@ QString ClipVisualizationPageModel::pageTitle()
     return qtrc("appshell/gettingstarted", "Clip visualization");
 }
 
+QString ClipVisualizationPageModel::navigationAccessibleName()
+{
+    return qtrc("appshell/gettingstarted", "Clip visualization options");
+}
+
+QString ClipVisualizationPageModel::navigationAccessibleDescription()
+{
+    return qtrc("appshell/gettingstarted", "Choose how audio clips are displayed in the timeline");
+}
+
+QString ClipVisualizationPageModel::pageAccessibleDescription()
+{
+    return qtrc("appshell/gettingstarted", "Select your preferred clip visualization style. Preview is shown on the right.");
+}
+
+QString ClipVisualizationPageModel::previewAccessibleName()
+{
+    return qtrc("appshell/gettingstarted", "Clip visualization preview");
+}
+
+QString ClipVisualizationPageModel::previewAccessibleDescription()
+{
+    return qtrc("appshell/gettingstarted", "Preview of how audio clips will appear with the selected visualization style");
+}
+
+QString ClipVisualizationPageModel::currentlySelectedText()
+{
+    return qtrc("appshell/gettingstarted", "Currently selected");
+}
+
+QString ClipVisualizationPageModel::clickToSelectText()
+{
+    return qtrc("appshell/gettingstarted", "Click to select this style");
+}
+
+QString ClipVisualizationPageModel::availableOptionText()
+{
+    return qtrc("appshell/gettingstarted", "Available option");
+}
+
+QString ClipVisualizationPageModel::formatNavigationDescription(const QString& description, bool selected) const
+{
+    const QString statusText = selected ? currentlySelectedText() : clickToSelectText();
+    return qtrc("appshell/gettingstarted", "%1. %2").arg(description).arg(statusText);
+}
+
+QString ClipVisualizationPageModel::formatAccessibleDescription(const QString& description, bool selected) const
+{
+    const QString statusText = selected ? currentlySelectedText() : availableOptionText();
+    return qtrc("appshell/gettingstarted", "%1. %2").arg(description).arg(statusText);
+}
+
 void ClipVisualizationPageModel::updateClipStyles()
 {
     const int currentStyleValue = currentClipStyle();

@@ -38,17 +38,35 @@ class ClipVisualizationPageModel : public QObject, public muse::async::Asyncable
     Q_PROPERTY(int currentClipStyle READ currentClipStyle NOTIFY currentClipStyleChanged)
     Q_PROPERTY(QString currentImagePath READ currentImagePath NOTIFY currentClipStyleChanged)
     Q_PROPERTY(QString pageTitle READ pageTitle CONSTANT)
+    Q_PROPERTY(QString navigationAccessibleName READ navigationAccessibleName CONSTANT)
+    Q_PROPERTY(QString navigationAccessibleDescription READ navigationAccessibleDescription CONSTANT)
+    Q_PROPERTY(QString pageAccessibleDescription READ pageAccessibleDescription CONSTANT)
+    Q_PROPERTY(QString previewAccessibleName READ previewAccessibleName CONSTANT)
+    Q_PROPERTY(QString previewAccessibleDescription READ previewAccessibleDescription CONSTANT)
+    Q_PROPERTY(QString currentlySelectedText READ currentlySelectedText CONSTANT)
+    Q_PROPERTY(QString clickToSelectText READ clickToSelectText CONSTANT)
+    Q_PROPERTY(QString availableOptionText READ availableOptionText CONSTANT)
 
 public:
     explicit ClipVisualizationPageModel(QObject* parent = nullptr);
 
     Q_INVOKABLE void load();
     Q_INVOKABLE void selectClipStyle(int style);
+    Q_INVOKABLE QString formatNavigationDescription(const QString& description, bool selected) const;
+    Q_INVOKABLE QString formatAccessibleDescription(const QString& description, bool selected) const;
 
     QVariantList clipStyles() const;
     int currentClipStyle() const;
     QString currentImagePath() const;
     static QString pageTitle();
+    static QString navigationAccessibleName();
+    static QString navigationAccessibleDescription();
+    static QString pageAccessibleDescription();
+    static QString previewAccessibleName();
+    static QString previewAccessibleDescription();
+    static QString currentlySelectedText();
+    static QString clickToSelectText();
+    static QString availableOptionText();
 
 signals:
     void clipStylesChanged();

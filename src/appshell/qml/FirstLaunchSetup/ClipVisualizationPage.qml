@@ -15,8 +15,8 @@ DoublePage {
     title: clipStyleModel.pageTitle
 
     navigationPanel.direction: NavigationPanel.Vertical
-    navigationPanel.accessible.name: qsTrc("appshell/gettingstarted", "Clip visualization options")
-    navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose how audio clips are displayed in the timeline")
+    navigationPanel.accessible.name: clipStyleModel.navigationAccessibleName
+    navigationPanel.accessible.description: clipStyleModel.navigationAccessibleDescription
 
     // Page-level accessibility information
     AccessibleItem {
@@ -27,7 +27,7 @@ DoublePage {
         role: MUAccessible.Panel
 
         name: root.title
-        description: qsTrc("appshell/gettingstarted", "Select your preferred clip visualization style. Preview is shown on the right.")
+        description: clipStyleModel.pageAccessibleDescription
     }
 
     // Left side content
@@ -71,7 +71,7 @@ DoublePage {
                             navigation.column: 0
                             navigation.row: index
                             navigation.accessible.name: modelData.title
-                            navigation.accessible.description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this style"))
+                            navigation.accessible.description: clipStyleModel.formatNavigationDescription(modelData.description, modelData.selected)
 
                             onToggled: {
                                 clipStyleModel.selectClipStyle(modelData.style)
@@ -106,7 +106,7 @@ DoublePage {
                         role: MUAccessible.ListItem
 
                         name: modelData.title
-                        description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available option"))
+                        description: clipStyleModel.formatAccessibleDescription(modelData.description, modelData.selected)
                     }
                 }
             }
@@ -126,8 +126,8 @@ DoublePage {
             visualItem: parent
             role: MUAccessible.Information
 
-            name: qsTrc("appshell/gettingstarted", "Clip visualization preview")
-            description: qsTrc("appshell/gettingstarted", "Preview of how audio clips will appear with the selected visualization style")
+            name: clipStyleModel.previewAccessibleName
+            description: clipStyleModel.previewAccessibleDescription
         }
     }
 
