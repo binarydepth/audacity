@@ -128,12 +128,14 @@ QString ClipVisualizationPageModel::availableOptionText()
 QString ClipVisualizationPageModel::formatNavigationDescription(const QString& description, bool selected) const
 {
     const QString statusText = selected ? currentlySelectedText() : clickToSelectText();
+    //: %1 is the clip style description (e.g. "Each track gets a new color"), %2 is the selection status (e.g. "Currently selected" or "Click to select this style")
     return qtrc("appshell/gettingstarted", "%1. %2").arg(description).arg(statusText);
 }
 
 QString ClipVisualizationPageModel::formatAccessibleDescription(const QString& description, bool selected) const
 {
     const QString statusText = selected ? currentlySelectedText() : availableOptionText();
+    //: %1 is the clip style description (e.g. "Each track gets a new color"), %2 is the availability status (e.g. "Currently selected" or "Available option")
     return qtrc("appshell/gettingstarted", "%1. %2").arg(description).arg(statusText);
 }
 
