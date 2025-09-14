@@ -15,8 +15,8 @@ DoublePage {
     title: workspaceModel.pageTitle
 
     navigationPanel.direction: NavigationPanel.Vertical
-    navigationPanel.accessible.name: qsTrc("appshell/gettingstarted", "Workspace layout options")
-    navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose your preferred workspace layout for the Audacity interface")
+    navigationPanel.accessible.name: workspaceModel.navigationAccessibleName
+    navigationPanel.accessible.description: workspaceModel.navigationAccessibleDescription
 
     // Page-level accessibility information
     AccessibleItem {
@@ -27,7 +27,7 @@ DoublePage {
         role: MUAccessible.Panel
 
         name: root.title
-        description: qsTrc("appshell/gettingstarted", "Select a workspace layout that suits your workflow. You can change this later.")
+        description: workspaceModel.pageAccessibleDescription
     }
 
     // Left side content
@@ -71,7 +71,7 @@ DoublePage {
                             navigation.column: 0
                             navigation.row: index
                             navigation.accessible.name: modelData.title
-                            navigation.accessible.description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Click to select this workspace"))
+                            navigation.accessible.description: workspaceModel.formatNavigationDescription(modelData.description, modelData.selected)
 
                             onToggled: {
                                 workspaceModel.selectWorkspace(modelData.code)
@@ -109,7 +109,7 @@ DoublePage {
                         role: MUAccessible.ListItem
 
                         name: modelData.title
-                        description: qsTrc("appshell/gettingstarted", "%1. %2").arg(modelData.description).arg(modelData.selected ? qsTrc("appshell/gettingstarted", "Currently selected") : qsTrc("appshell/gettingstarted", "Available workspace"))
+                        description: workspaceModel.formatAccessibleDescription(modelData.description, modelData.selected)
                     }
                 }
             }
@@ -120,7 +120,7 @@ DoublePage {
             id: infoTextLabel
             font: ui.theme.bodyFont
             horizontalAlignment: Text.AlignLeft
-            text: qsTrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.")
+            text: workspaceModel.additionalInfoText
             width: parent.width
             wrapMode: Text.WordWrap
 
@@ -130,7 +130,7 @@ DoublePage {
                 visualItem: infoTextLabel
                 role: MUAccessible.StaticText
 
-                name: qsTrc("appshell/gettingstarted", "Additional information")
+                name: workspaceModel.additionalInfoAccessibleName
                 description: infoTextLabel.text
             }
         }
@@ -152,8 +152,8 @@ DoublePage {
             visualItem: parent
             role: MUAccessible.Information
 
-            name: qsTrc("appshell/gettingstarted", "Workspace layout preview")
-            description: qsTrc("appshell/gettingstarted", "Preview of the selected workspace layout showing the arrangement of interface elements")
+            name: workspaceModel.previewAccessibleName
+            description: workspaceModel.previewAccessibleDescription
         }
     }
 

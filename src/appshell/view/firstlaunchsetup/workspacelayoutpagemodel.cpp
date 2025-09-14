@@ -140,3 +140,67 @@ void WorkspaceLayoutPageModel::updateWorkspaces()
 
     emit workspacesChanged();
 }
+
+QString WorkspaceLayoutPageModel::navigationAccessibleName()
+{
+    return qtrc("appshell/gettingstarted", "Workspace layout options");
+}
+
+QString WorkspaceLayoutPageModel::navigationAccessibleDescription()
+{
+    return qtrc("appshell/gettingstarted", "Choose your preferred workspace layout for the Audacity interface");
+}
+
+QString WorkspaceLayoutPageModel::pageAccessibleDescription()
+{
+    return qtrc("appshell/gettingstarted", "Select a workspace layout that suits your workflow. You can change this later.");
+}
+
+QString WorkspaceLayoutPageModel::currentlySelectedText()
+{
+    return qtrc("appshell/gettingstarted", "Currently selected");
+}
+
+QString WorkspaceLayoutPageModel::clickToSelectText()
+{
+    return qtrc("appshell/gettingstarted", "Click to select this workspace");
+}
+
+QString WorkspaceLayoutPageModel::availableWorkspaceText()
+{
+    return qtrc("appshell/gettingstarted", "Available workspace");
+}
+
+QString WorkspaceLayoutPageModel::additionalInfoText()
+{
+    return qtrc("appshell/gettingstarted", "You can change between these layouts at any time using our new 'workspaces' feature.");
+}
+
+QString WorkspaceLayoutPageModel::additionalInfoAccessibleName()
+{
+    return qtrc("appshell/gettingstarted", "Additional information");
+}
+
+QString WorkspaceLayoutPageModel::previewAccessibleName()
+{
+    return qtrc("appshell/gettingstarted", "Workspace layout preview");
+}
+
+QString WorkspaceLayoutPageModel::previewAccessibleDescription()
+{
+    return qtrc("appshell/gettingstarted", "Preview of the selected workspace layout showing the arrangement of interface elements");
+}
+
+QString WorkspaceLayoutPageModel::formatNavigationDescription(const QString& description, bool selected) const
+{
+    const QString statusText = selected ? currentlySelectedText() : clickToSelectText();
+    //: %1 is the workspace description, %2 is the selection status (e.g. "Currently selected" or "Click to select this workspace")
+    return qtrc("appshell/gettingstarted", "%1. %2").arg(description).arg(statusText);
+}
+
+QString WorkspaceLayoutPageModel::formatAccessibleDescription(const QString& description, bool selected) const
+{
+    const QString statusText = selected ? currentlySelectedText() : availableWorkspaceText();
+    //: %1 is the workspace description, %2 is the availability status (e.g. "Currently selected" or "Available workspace")
+    return qtrc("appshell/gettingstarted", "%1. %2").arg(description).arg(statusText);
+}

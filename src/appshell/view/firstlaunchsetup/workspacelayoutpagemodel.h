@@ -40,6 +40,16 @@ class WorkspaceLayoutPageModel : public QObject, public muse::async::Asyncable
     Q_PROPERTY(QString currentWorkspaceCode READ currentWorkspaceCode NOTIFY workspacesChanged)
     Q_PROPERTY(QString currentImagePath READ currentImagePath NOTIFY workspacesChanged)
     Q_PROPERTY(QString pageTitle READ pageTitle CONSTANT)
+    Q_PROPERTY(QString navigationAccessibleName READ navigationAccessibleName CONSTANT)
+    Q_PROPERTY(QString navigationAccessibleDescription READ navigationAccessibleDescription CONSTANT)
+    Q_PROPERTY(QString pageAccessibleDescription READ pageAccessibleDescription CONSTANT)
+    Q_PROPERTY(QString currentlySelectedText READ currentlySelectedText CONSTANT)
+    Q_PROPERTY(QString clickToSelectText READ clickToSelectText CONSTANT)
+    Q_PROPERTY(QString availableWorkspaceText READ availableWorkspaceText CONSTANT)
+    Q_PROPERTY(QString additionalInfoText READ additionalInfoText CONSTANT)
+    Q_PROPERTY(QString additionalInfoAccessibleName READ additionalInfoAccessibleName CONSTANT)
+    Q_PROPERTY(QString previewAccessibleName READ previewAccessibleName CONSTANT)
+    Q_PROPERTY(QString previewAccessibleDescription READ previewAccessibleDescription CONSTANT)
 
     muse::Inject<muse::ui::IUiConfiguration> m_uiConfiguration;
 
@@ -52,11 +62,23 @@ public:
 
     Q_INVOKABLE void load();
     Q_INVOKABLE void selectWorkspace(const QString& workspaceCode);
+    Q_INVOKABLE QString formatNavigationDescription(const QString& description, bool selected) const;
+    Q_INVOKABLE QString formatAccessibleDescription(const QString& description, bool selected) const;
 
     QVariantList workspaces() const;
     QString currentWorkspaceCode() const;
     QString currentImagePath() const;
     static QString pageTitle();
+    static QString navigationAccessibleName();
+    static QString navigationAccessibleDescription();
+    static QString pageAccessibleDescription();
+    static QString currentlySelectedText();
+    static QString clickToSelectText();
+    static QString availableWorkspaceText();
+    static QString additionalInfoText();
+    static QString additionalInfoAccessibleName();
+    static QString previewAccessibleName();
+    static QString previewAccessibleDescription();
 
 signals:
     void workspacesChanged();
