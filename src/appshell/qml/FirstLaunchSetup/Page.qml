@@ -63,6 +63,7 @@ Item {
         visualItem: root
         role: MUAccessible.Button
 
+        //: %1 is the page title, %2 is the active button title (e.g. "Next" or "Done")
         name: qsTrc("appshell/gettingstarted", "%1. %2").arg(root.title).arg(root.activeButtonTitle)
 
         function readInfo() {

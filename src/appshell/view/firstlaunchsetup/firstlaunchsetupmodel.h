@@ -68,7 +68,6 @@ public:
     static QString nextButtonText();
     static QString doneButtonText();
     Q_INVOKABLE QString formatPageProgress(int current, int total) const;
-    Q_INVOKABLE QString formatPageAccessibleName(const QString& title, const QString& activeButtonTitle) const;
 
     Q_INVOKABLE void finish();
 

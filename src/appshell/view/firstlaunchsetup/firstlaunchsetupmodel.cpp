@@ -123,12 +123,6 @@ QString FirstLaunchSetupModel::formatPageProgress(int current, int total) const
     return muse::qtrc("appshell/gettingstarted", "%1 of %2").arg(current).arg(total);
 }
 
-QString FirstLaunchSetupModel::formatPageAccessibleName(const QString& title, const QString& activeButtonTitle) const
-{
-    //: %1 is the page title, %2 is the active button title (e.g. "Next" or "Done")
-    return muse::qtrc("appshell/gettingstarted", "%1. %2").arg(title).arg(activeButtonTitle);
-}
-
 void FirstLaunchSetupModel::finish()
 {
     configuration()->setHasCompletedFirstLaunchSetup(true);

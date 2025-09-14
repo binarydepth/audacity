@@ -87,11 +87,14 @@ ListView {
             navigation.panel: root.navigationPanel
             navigation.row: root.navigationRow
             navigation.column: root.navigationColumnStart + model.index
-            navigation.accessible.name: modelData.title + " " + qsTrc("appshell/gettingstarted", "theme")
+            //: %1 is the theme name (e.g. "Light", "Dark")
+            navigation.accessible.name: qsTrc("appshell/gettingstarted", "%1 theme").arg(modelData.title)
             navigation.accessible.description: {
-                var desc = qsTrc("appshell/gettingstarted", "Select ") + modelData.title + " " + qsTrc("appshell/gettingstarted", "theme")
+                //: %1 is the theme name (e.g. "Light", "Dark")
+                var desc = qsTrc("appshell/gettingstarted", "Select %1 theme").arg(modelData.title)
                 if (checked) {
-                    desc += ". " + qsTrc("appshell/gettingstarted", "Currently selected")
+                    //: %1 is the base description with theme selection
+                    desc = qsTrc("appshell/gettingstarted", "%1. Currently selected").arg(desc)
                 }
                 return desc
             }
