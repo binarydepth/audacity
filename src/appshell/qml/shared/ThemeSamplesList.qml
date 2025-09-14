@@ -32,14 +32,14 @@ ListView {
     property alias themes: root.model
     property string currentThemeCode
 
-    currentIndex: model.findIndex((theme) => theme.codeKey === currentThemeCode)
+    currentIndex: model.findIndex(theme => theme.codeKey === currentThemeCode)
 
     property NavigationPanel navigationPanel: NavigationPanel {
         name: "ThemeSamplesList"
         enabled: root.enabled && root.visible
         direction: NavigationPanel.Horizontal
 
-        onNavigationEvent: function(event) {
+        onNavigationEvent: function (event) {
             if (event.type === NavigationEvent.AboutActive) {
                 event.setData("controlIndex", [navigationRow, navigationColumnStart + root.currentIndex])
             }

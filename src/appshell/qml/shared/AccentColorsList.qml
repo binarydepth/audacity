@@ -35,7 +35,7 @@ RadioButtonGroup {
         enabled: root.enabled && root.visible
         direction: NavigationPanel.Horizontal
 
-        onNavigationEvent: function(event) {
+        onNavigationEvent: function (event) {
             if (event.type === NavigationEvent.AboutActive) {
                 event.setData("controlIndex", [navigationRow, navigationColumnStart + root.currentIndex])
             }
@@ -83,7 +83,9 @@ RadioButtonGroup {
             border.width: parent.checked ? 1 : 0
             radius: width / 2
 
-            NavigationFocusBorder { navigationCtrl: button.navigation }
+            NavigationFocusBorder {
+                navigationCtrl: button.navigation
+            }
 
             Rectangle {
                 anchors.centerIn: parent
