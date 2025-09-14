@@ -17,7 +17,6 @@ struct WorkspaceInfo {
     QString m_code;
     QString m_title;
     QString m_description;
-    QString m_imagePath;
     bool m_selected = false;
 
     [[nodiscard]] QVariantMap toMap() const
@@ -26,7 +25,6 @@ struct WorkspaceInfo {
             { "code", m_code },
             { "title", m_title },
             { "description", m_description },
-            { "imagePath", m_imagePath },
             { "selected", m_selected }
         };
     }
@@ -38,7 +36,6 @@ class WorkspaceLayoutPageModel : public QObject, public muse::async::Asyncable
 
     Q_PROPERTY(QVariantList workspaces READ workspaces NOTIFY workspacesChanged)
     Q_PROPERTY(QString currentWorkspaceCode READ currentWorkspaceCode NOTIFY workspacesChanged)
-    Q_PROPERTY(QString currentImagePath READ currentImagePath NOTIFY workspacesChanged)
     Q_PROPERTY(QString pageTitle READ pageTitle CONSTANT)
     Q_PROPERTY(QString navigationAccessibleName READ navigationAccessibleName CONSTANT)
     Q_PROPERTY(QString navigationAccessibleDescription READ navigationAccessibleDescription CONSTANT)
@@ -67,7 +64,6 @@ public:
 
     QVariantList workspaces() const;
     QString currentWorkspaceCode() const;
-    QString currentImagePath() const;
     static QString pageTitle();
     static QString navigationAccessibleName();
     static QString navigationAccessibleDescription();

@@ -8,11 +8,6 @@ using namespace muse;
 WorkspaceLayoutPageModel::WorkspaceLayoutPageModel(QObject* parent)
     : QObject(parent)
 {
-    // Listen to theme changes to update image paths
-    m_uiConfiguration()->currentThemeChanged().onNotify(this, [this]() {
-        updateWorkspaces();
-    });
-
 #ifdef MUSE_MODULE_WORKSPACE
     // Listen to workspace changes to update selection
     m_workspaceManager()->currentWorkspaceChanged().onNotify(this, [this]() {
@@ -38,7 +33,6 @@ void WorkspaceLayoutPageModel::load()
     modern.m_code = "Modern";
     modern.m_title = qtrc("appshell/gettingstarted", "Modern");
     modern.m_description = qtrc("appshell/gettingstarted", "A clearer interface. Ideal for new users");
-    modern.m_imagePath = "resources/UILayout_LightMode.png"; // Will be updated based on theme
 #ifdef MUSE_MODULE_WORKSPACE
     modern.m_selected = (currentWorkspaceName == "Modern");
 #else
@@ -50,7 +44,6 @@ void WorkspaceLayoutPageModel::load()
     classic.m_code = "Classic";
     classic.m_title = qtrc("appshell/gettingstarted", "Classic");
     classic.m_description = qtrc("appshell/gettingstarted", "Closely matches the layout of Audacity 3");
-    classic.m_imagePath = "resources/UILayout_LightMode.png"; // Will be updated based on theme
 #ifdef MUSE_MODULE_WORKSPACE
     classic.m_selected = (currentWorkspaceName == "Classic");
 #else
@@ -101,16 +94,6 @@ QString WorkspaceLayoutPageModel::currentWorkspaceCode() const
     return "modern"; // Default fallback
 }
 
-QString WorkspaceLayoutPageModel::currentImagePath() const
-{
-    for (const WorkspaceInfo& workspace : m_workspaces) {
-        if (workspace.m_selected) {
-            return workspace.m_imagePath;
-        }
-    }
-    return ""; // Fallback
-}
-
 QString WorkspaceLayoutPageModel::pageTitle()
 {
     return qtrc("appshell/gettingstarted", "What UI layout (workspace) do you want?");
@@ -118,10 +101,6 @@ QString WorkspaceLayoutPageModel::pageTitle()
 
 void WorkspaceLayoutPageModel::updateWorkspaces()
 {
-    // Update image paths based on current theme
-    const bool isDarkTheme = m_uiConfiguration()->isDarkMode();
-    const QString imagePath = isDarkTheme ? "resources/UILayout_DarkMode.png" : "resources/UILayout_LightMode.png";
-
 #ifdef MUSE_MODULE_WORKSPACE
     // Get current workspace from workspace manager
     std::string currentWorkspaceName;
@@ -131,7 +110,6 @@ void WorkspaceLayoutPageModel::updateWorkspaces()
 #endif
 
     for (WorkspaceInfo& workspace : m_workspaces) {
-        workspace.m_imagePath = imagePath;
 #ifdef MUSE_MODULE_WORKSPACE
         // Update selection based on current workspace
         workspace.m_selected = (workspace.m_code.toStdString() == currentWorkspaceName);

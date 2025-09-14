@@ -136,42 +136,10 @@ DoublePage {
         }
     }
 
-    // Right side content
-    rightContent: Image {
-        anchors.fill: parent
-        asynchronous: true
-        cache: true
-        fillMode: Image.PreserveAspectFit
-        mipmap: true
-        smooth: false
-        source: workspaceModel.currentImagePath
-
-        // Accessibility for the workspace preview image
-        AccessibleItem {
-            accessibleParent: pageAccessibleInfo
-            visualItem: parent
-            role: MUAccessible.Information
-
-            name: workspaceModel.previewAccessibleName
-            description: workspaceModel.previewAccessibleDescription
-        }
-    }
-
     Component.onCompleted: {
         workspaceModel.load()
     }
 
-    SeparatorLine {
-        anchors.horizontalCenter: parent.horizontalCenter
-        orientation: Qt.Vertical
-        visible: showRightContent
-    }
-
-    SeparatorLine {
-        anchors.right: parent.right
-        orientation: Qt.Vertical
-        visible: showRightContent
-    }
     WorkspaceLayoutPageModel {
         id: workspaceModel
     }
