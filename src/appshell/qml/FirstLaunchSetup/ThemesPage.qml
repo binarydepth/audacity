@@ -31,7 +31,7 @@ import "../shared"
 Page {
     id: root
 
-    title: qsTrc("appshell/gettingstarted", "Select a theme")
+    title: model.pageTitle
 
     property NavigationPanel checkboxesPanel: NavigationPanel {
         name: "CheckboxesPanel"
@@ -39,8 +39,8 @@ Page {
         section: root.navigationSection
         order: root.navigationStartRow + 2
         direction: NavigationPanel.Vertical
-        accessible.name: qsTrc("appshell/gettingstarted", "Theme options")
-        accessible.description: qsTrc("appshell/gettingstarted", "Additional theme configuration options")
+        accessible.name: model.checkboxesPanelAccessibleName
+        accessible.description: model.checkboxesPanelAccessibleDescription
     }
 
     ThemesPageModel {
@@ -60,7 +60,7 @@ Page {
         role: MUAccessible.Panel
 
         name: root.title
-        description: qsTrc("appshell/gettingstarted", "Choose your preferred theme, follow system theme option, and accent color")
+        description: model.pageDescription
     }
 
     ColumnLayout {
@@ -80,8 +80,8 @@ Page {
 
             navigationPanel.section: root.navigationSection
             navigationPanel.order: root.navigationStartRow + 1
-            navigationPanel.accessible.name: qsTrc("appshell/gettingstarted", "Theme selection")
-            navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose between light, dark, or system theme")
+            navigationPanel.accessible.name: model.themeSelectionAccessibleName
+            navigationPanel.accessible.description: model.themeSelectionAccessibleDescription
 
             onThemeChangeRequested: function (newThemeCode) {
                 model.currentThemeCode = newThemeCode
@@ -100,14 +100,14 @@ Page {
                 Layout.alignment: Qt.AlignCenter
 
                 enabled: model.isFollowSystemThemeAvailable
-                text: qsTrc("appshell/gettingstarted", "Follow system theme")
+                text: model.followSystemThemeText
                 checked: model.isFollowSystemTheme
 
                 navigation.name: "FollowSystemThemeBox"
                 navigation.panel: root.checkboxesPanel
                 navigation.row: 0
                 navigation.column: 0
-                navigation.accessible.description: qsTrc("appshell/gettingstarted", "When enabled, the theme will automatically match your system's theme setting")
+                navigation.accessible.description: model.followSystemThemeDescription
 
                 onClicked: {
                     model.isFollowSystemTheme = !checked
@@ -117,14 +117,14 @@ Page {
             CheckBox {
                 Layout.alignment: Qt.AlignCenter
 
-                text: qsTrc("appshell/gettingstarted", "Enable high-contrast")
+                text: model.enableHighContrastText
                 checked: model.highContrastEnabled
 
                 navigation.name: "EnableHighContrastCheckbox"
                 navigation.panel: root.checkboxesPanel
                 navigation.row: 1
                 navigation.column: 0
-                navigation.accessible.description: qsTrc("appshell/gettingstarted", "Enable high contrast mode for better visibility. %1").arg(highContrastPreferencesHintLabel.text)
+                navigation.accessible.description: model.enableHighContrastDescription
 
                 onClicked: {
                     model.highContrastEnabled = !checked
@@ -144,7 +144,7 @@ Page {
                 Layout.alignment: Qt.AlignCenter
                 anchors.horizontalCenter: parent.horizontalCenter
 
-                text: qsTrc("project", "Accent color")
+                text: model.accentColorText
                 font: ui.theme.bodyFont
             }
 
@@ -162,8 +162,8 @@ Page {
 
                 navigationPanel.section: root.navigationSection
                 navigationPanel.order: root.navigationStartRow + 3
-                navigationPanel.accessible.name: qsTrc("project", "Accent color")
-                navigationPanel.accessible.description: qsTrc("appshell/gettingstarted", "Choose an accent color for the interface")
+                navigationPanel.accessible.name: model.accentColorText
+                navigationPanel.accessible.description: model.accentColorDescription
 
                 onAccentColorChangeRequested: function (newColorIndex) {
                     model.currentAccentColorIndex = newColorIndex
@@ -177,7 +177,7 @@ Page {
             Layout.fillWidth: true
             Layout.topMargin: 15
             Layout.preferredHeight: Math.max(implicitHeight, accentColorsList.implicitHeight)
-            text: qsTrc("appshell/gettingstarted", "Further options for high contrast mode can be found in Preferences")
+            text: model.highContrastPreferencesHint
         }
 
         // Accessibility group for the entire page content
@@ -188,23 +188,8 @@ Page {
             visualItem: root
             role: MUAccessible.Group
 
-            name: qsTrc("appshell/gettingstarted", "Theme configuration")
-            description: {
-                var themeName = model.currentThemeCode === "light" ? qsTrc("appshell/gettingstarted", "Light") : model.currentThemeCode === "dark" ? qsTrc("appshell/gettingstarted", "Dark") : qsTrc("appshell/gettingstarted", "System")
-                var baseDesc = qsTrc("appshell/gettingstarted", "Current theme: %1").arg(themeName)
-
-                if (model.isFollowSystemTheme) {
-                    baseDesc = qsTrc("appshell/gettingstarted", "%1. Following system theme").arg(baseDesc)
-                }
-
-                if (model.highContrastEnabled) {
-                    baseDesc = qsTrc("appshell/gettingstarted", "%1. High contrast enabled").arg(baseDesc)
-                } else {
-                    baseDesc = qsTrc("appshell/gettingstarted", "%1. Accent color selected").arg(baseDesc)
-                }
-
-                return baseDesc
-            }
+            name: model.themeConfigurationText
+            description: model.formatThemeConfigurationDescription()
         }
     }
 }
