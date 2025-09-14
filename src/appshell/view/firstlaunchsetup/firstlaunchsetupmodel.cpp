@@ -97,6 +97,38 @@ void FirstLaunchSetupModel::setCurrentPageIndex(int index)
     });
 }
 
+QString FirstLaunchSetupModel::dialogTitle()
+{
+    return muse::qtrc("appshell/gettingstarted", "Getting started");
+}
+
+QString FirstLaunchSetupModel::backButtonText()
+{
+    return muse::qtrc("global", "Back");
+}
+
+QString FirstLaunchSetupModel::nextButtonText()
+{
+    return muse::qtrc("global", "Next");
+}
+
+QString FirstLaunchSetupModel::doneButtonText()
+{
+    return muse::qtrc("appshell/gettingstarted", "Done");
+}
+
+QString FirstLaunchSetupModel::formatPageProgress(int current, int total) const
+{
+    //: %1 is the current page number, %2 is the total number of pages
+    return muse::qtrc("appshell/gettingstarted", "%1 of %2").arg(current).arg(total);
+}
+
+QString FirstLaunchSetupModel::formatPageAccessibleName(const QString& title, const QString& activeButtonTitle) const
+{
+    //: %1 is the page title, %2 is the active button title (e.g. "Next" or "Done")
+    return muse::qtrc("appshell/gettingstarted", "%1. %2").arg(title).arg(activeButtonTitle);
+}
+
 void FirstLaunchSetupModel::finish()
 {
     configuration()->setHasCompletedFirstLaunchSetup(true);

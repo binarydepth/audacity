@@ -30,7 +30,7 @@ StyledDialogView {
     id: root
 
     objectName: "FirstLaunchSetupDialog"
-    title: qsTrc("appshell/gettingstarted", "Getting started")
+    title: model.dialogTitle
 
     contentWidth: 560
     contentHeight: 442
@@ -121,7 +121,7 @@ StyledDialogView {
                 Layout.topMargin: 6
                 Layout.bottomMargin: 6
                 Layout.alignment: Qt.AlignLeft
-                text: qsTrc("appshell/gettingstarted", "%1 of %2").arg(model.currentPageIndex + 1).arg(model.numberOfPages)
+                text: model.formatPageProgress(model.currentPageIndex + 1, model.numberOfPages)
                 font: ui.theme.bodyFont
             }
 
@@ -155,7 +155,7 @@ StyledDialogView {
                 Layout.preferredHeight: 28
                 Layout.preferredWidth: 80
 
-                text: qsTrc("global", "Back")
+                text: model.backButtonText
                 enabled: model.canGoBack
                 visible: model.canGoBack
 
@@ -213,7 +213,7 @@ StyledDialogView {
                 Layout.preferredHeight: 28
                 Layout.preferredWidth: 80
 
-                text: model.canFinish ? qsTrc("appshell/gettingstarted", "Done") : qsTrc("global", "Next")
+                text: model.canFinish ? model.doneButtonText : model.nextButtonText
                 accentButton: !extraButton.visible
 
                 navigation.name: "NextButton"
