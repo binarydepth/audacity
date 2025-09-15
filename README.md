@@ -2,9 +2,7 @@
 
 **Audacity** is an easy-to-use, multi-track audio editor and recorder for Windows, macOS, GNU/Linux and other operating systems. More info can be found on https://www.audacityteam.org
 
-## This repository is currently undergoing major structural change.
-
-We're currently working on Audacity 4, which means an entirely new UI and also refactorings aplenty. As such, master is currently not particularly friendly to new contributors. It still is possible to submit patches to Audacity 3.x; make sure you branch off release-3.7.x if you choose to do so. Build instructions for 3.x can be found; build instructions for Audacity 4 are not available yet.
+## This repository is currently dormat until contributions come. Comercial agendas have deviated the main project to alienat a more democratic technology like ROCm, OpenCL or Vulkan.
 
 ## License
 
