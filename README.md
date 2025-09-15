@@ -2,7 +2,7 @@
 
 **Audacity** is an easy-to-use, multi-track audio editor and recorder for Windows, macOS, GNU/Linux and other operating systems. More info can be found on https://www.audacityteam.org
 
-## This repository is currently dormat until contributions come. Comercial agendas have deviated the main project to alienat a more democratic technology like ROCm, OpenCL or Vulkan.
+## This repository is currently dormant until contributions come. Comercial agendas have deviated the main project to alienat a more democratic technology like ROCm, OpenCL or Vulkan.
 
 ## License
 
